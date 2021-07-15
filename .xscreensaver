@@ -18,11 +18,11 @@ unfade:		True
 fadeSeconds:	0:00:03
 ignoreUninstalledPrograms:False
 font:		
-dpmsEnabled:	False
+dpmsEnabled:	True
 dpmsQuickOff:	False
-dpmsStandby:	2:00:00
-dpmsSuspend:	2:00:00
-dpmsOff:	4:00:00
+dpmsStandby:	1:00:00
+dpmsSuspend:	0:00:00
+dpmsOff:	0:00:00
 grabDesktopImages:  True
 grabVideoFrames:    False
 chooseRandomImages: False
@@ -182,7 +182,8 @@ programs:								      \
 				fontglide -root				    \n\
   GL: 				gleidescope -root			    \n\
   GL: 				glknots -root				    \n\
-  GL: 				glmatrix -root				    \n\
+  GL: 				glmatrix -root -mode hex -no-fog	      \
+				  -no-waves -no-rotate			    \n\
 - GL: 				glslideshow -root			    \n\
   GL: 				hypertorus -root			    \n\
 - GL: 				jigglypuff -root			    \n\

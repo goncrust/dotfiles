@@ -53,5 +53,6 @@ xrandr --output DP-0 --primary --mode 1920x1080 --rate 144.00 --output DP-2 --mo
 setxkbmap -layout pt
 setxkbmap -option caps:escape
 xset r rate 300 50
+xset -dpms
 picom &
 exec xmonad

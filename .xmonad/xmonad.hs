@@ -75,12 +75,6 @@ myModMask = mod4Mask        -- Sets modkey to super/windows key
 myTerminal :: String
 myTerminal = "alacritty"    -- Sets default terminal
 
-myBrowser :: String
-myBrowser = "firefox "  -- Sets qutebrowser as browser
-
-myEditor :: String
-myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor
-
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
 
@@ -95,11 +89,12 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myStartupHook :: X ()
 myStartupHook = do
-    spawnOnce "lxsession &"
     spawnOnce "picom &"
     spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 17 &"
+    spawnOnce "xscreensaver &"
     spawnOnce "volumeicon &"
-    spawnOnce "polychromatic-tray-applet"
+    spawnOnce "mocicon &"
+    spawnOnce "polychromatic-tray-applet &"
     setWMName "xmonad"
 
 myColorizer :: Window -> Bool -> X (String, String)
