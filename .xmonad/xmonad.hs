@@ -132,7 +132,7 @@ myAppGrid = [ ("Firefox", "firefox")
                  , ("Brave", "brave")
                  , ("vim", "alacritty -e vim")
                  , ("htop", "alacritty -e htop")
-                 , ("vifm", "alacritty -e vifm")
+                 , ("vifm", "alacritty -e $HOME/.config/vifm/scripts/vifmrun")
                  , ("Discord", "discord")]
 
 myScratchPads :: [NamedScratchpad]
@@ -384,7 +384,7 @@ myKeys =
         , ("<XF86AudioMute>", spawn "amixer set Master toggle")
         , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
         , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
-        , ("<Print>", spawn "dmscrot")
+        , ("<Print>", spawn "escrotum -d 0 $HOME/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png")
         ]
     -- The following lines are needed for named scratchpads.
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))

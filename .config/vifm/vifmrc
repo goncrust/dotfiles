@@ -240,8 +240,12 @@ filextype {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
         \ gpicview %c,
         \ {View in shotwell}
         \ shotwell,
-fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
-         \ identify %f
+"fileviewer {*.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm},<image/*>
+"        \ identify %f
+fileviewer *.jpg,*.jpeg,*.png
+           \ vifmimg draw %px %py %pw %ph %c
+           \ %pc
+           \ vifmimg clear
 
 " OpenRaster
 filextype *.ora
