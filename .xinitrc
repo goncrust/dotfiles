@@ -54,5 +54,6 @@ setxkbmap -layout pt
 setxkbmap -option caps:escape
 xset r rate 300 50
 xset -dpms
+xset s 0 0
 picom &
 exec xmonad
