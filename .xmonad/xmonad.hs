@@ -128,25 +128,37 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                    }
 
 -- C-g g
-myAppGrid = [ ("Firefox", "firefox")
+myAppGrid = [ ("vim", "alacritty -e vim")
                  , ("Brave", "brave")
-                 , ("vim", "alacritty -e vim")
-                 , ("htop", "alacritty -e htop")
-                 , ("vifm", "alacritty -e $HOME/.config/vifm/scripts/vifmrun")
-                 , ("Discord", "discord")]
+                 , ("TorBrowser", "torbrowser-launcher")  
+                 , ("qutebrowser", "qutebrowser")  
+                 , ("Firefox", "firefox")
+                 , ("Discord", "discord")
+                 , ("LibreOffice", "libreoffice")
+                 , ("GIMP", "gimp")]
 
 myScratchPads :: [NamedScratchpad]
-                -- C-s t
-myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
+                -- C-s f 
+myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
+                -- C-s h
+                , NS "htop" spawnHtop findHtop manageHtop
                 -- C-s m
                 , NS "mocp" spawnMocp findMocp manageMocp
                 -- C-s c
                 , NS "calculator" spawnCalc findCalc manageCalc
                 ]
   where
-    spawnTerm  = myTerminal ++ " -t scratchpad"
-    findTerm   = title =? "scratchpad"
-    manageTerm = customFloating $ W.RationalRect l t w h
+    spawnVifm  = myTerminal ++ " -t vifm -e $HOME/.config/vifm/scripts/vifmrun"
+    findVifm   = title =? "vifm"
+    manageVifm = customFloating $ W.RationalRect l t w h
+               where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
+    spawnHtop  = myTerminal ++ " -t htop -e htop"
+    findHtop   = title =? "htop"
+    manageHtop = customFloating $ W.RationalRect l t w h
                where
                  h = 0.9
                  w = 0.9
@@ -309,6 +321,8 @@ myManageHook = composeAll
      , className =? "toolbar"         --> doFloat
      , title =? "Oracle VM VirtualBox Manager"  --> doFloat
      , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+     , className =? "firefox"         --> doFloat
+     , className =? "Tor Browser"         --> doFloat
      , isFullscreen -->  doFullFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -367,7 +381,8 @@ myKeys =
     -- Toggle show/hide these programs.  They run on a hidden workspace.
     -- When you toggle them to show, it brings them to your current workspace.
     -- Toggle them to hide and it sends them back to hidden workspace (NSP).
-        , ("C-s t", namedScratchpadAction myScratchPads "terminal")
+        , ("C-s f", namedScratchpadAction myScratchPads "vifm")
+        , ("C-s h", namedScratchpadAction myScratchPads "htop")
         , ("C-s m", namedScratchpadAction myScratchPads "mocp")
         , ("C-s c", namedScratchpadAction myScratchPads "calculator")
 

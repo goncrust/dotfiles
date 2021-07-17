@@ -11,6 +11,7 @@ source ~/.zsh-plugins/.powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+clear
 colorscript -r
 
 # syntax highlighting
@@ -36,3 +37,7 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
+
+
+# aliases
+alias dev="cd /first-hdd/dev"
