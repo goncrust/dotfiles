@@ -93,6 +93,7 @@ myStartupHook = do
     spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282c34  --height 17 &"
     spawnOnce "xscreensaver &"
     spawnOnce "volumeicon &"
+    spawnOnce "redshift-gtk -l 51.5045300:-0.1257400 &"
     spawnOnce "mocicon &"
     spawnOnce "polychromatic-tray-applet &"
     setWMName "xmonad"
@@ -164,7 +165,7 @@ myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
                  w = 0.9
                  t = 0.95 -h
                  l = 0.95 -w
-    spawnMocp  = myTerminal ++ " -t mocp -e mocp"
+    spawnMocp  = myTerminal ++ " -t mocp -e mocp -m"
     findMocp   = title =? "mocp"
     manageMocp = customFloating $ W.RationalRect l t w h
                where
