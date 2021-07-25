@@ -40,6 +40,6 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v
 export KEYTIMEOUT=1
 
-
 # aliases
 alias dev="cd /first-hdd/dev"
+alias ls="ls --color=auto"
