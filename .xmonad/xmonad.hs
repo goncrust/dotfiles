@@ -345,6 +345,7 @@ myKeys =
 
     -- Workspaces
         , ("M-.", nextScreen)  -- Switch focus to next monitor
+        , ("M-,", prevScreen) -- Switch focus to previous monitor
 
     -- Floating windows
         , ("M-f", sendMessage (T.Toggle "floats")) -- Toggles my 'floats' layout
