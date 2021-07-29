@@ -129,8 +129,11 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                    }
 
 -- C-g g
-myAppGrid = [ ("vim", "alacritty -e vim")
-                 , ("Brave", "brave")
+myAppGrid = [ ("Brave", "brave")
+                 , ("vim", "alacritty -e vim")
+                 , ("Steam", "steam")
+                 , ("emacs", "emacs")
+                 , ("Lutris", "lutris")
                  , ("TorBrowser", "torbrowser-launcher")  
                  , ("qutebrowser", "qutebrowser")  
                  , ("Firefox", "firefox")
