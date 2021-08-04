@@ -1,0 +1,104 @@
+'\" t
+.\"     Title: limelight
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.10
+.\"      Date: 2020-05-26
+.\"    Manual: Limelight Manual
+.\"    Source: Limelight
+.\"  Language: English
+.\"
+.TH "LIMELIGHT" "1" "2020-05-26" "Limelight" "Limelight Manual"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+.sp
+limelight
+.SH "SYNOPSIS"
+.sp
+\fBlimelight\fP [\fB\-v\fP,\fB\-\-version\fP|\fB\-V\fP,\fB\-\-verbose\fP|\fB\-m\fP,\fB\-\-message\fP \fImsg\fP|\fB\-c\fP,\fB\-\-config\fP \fIconfig_file\fP]
+.SH "DESCRIPTION"
+.sp
+\fBlimelight\fP is a port of the window borders implementaion that used to be in yabai.
+.SH "OPTIONS"
+.sp
+\fB\-v\fP, \fB\-\-version\fP
+.RS 4
+Print the version and exit.
+.RE
+.sp
+\fB\-V\fP, \fB\-\-verbose\fP
+.RS 4
+Output debug information to stdout.
+.RE
+.sp
+\fB\-m\fP, \fB\-\-message\fP \fI<msg>\fP
+.RS 4
+Send message to a running instance of limelight.
+.RE
+.sp
+\fB\-c\fP, \fB\-\-config\fP \fI<config_file>\fP
+.RS 4
+Use the specified configuration file.
+.RE
+.SH "DOMAINS"
+.SS "Config"
+.SS "General Syntax"
+.sp
+limelight \-m config <setting>
+.RS 4
+Get or set the value of <setting>.
+.RE
+.SS "Settings"
+.sp
+\fBdebug_output\fP [\fIon|off\fP]
+.RS 4
+Enable output of debug information to stdout.
+.RE
+.sp
+\fBplacement\fP [\fIexterior|interior|inset\fP]
+.RS 4
+Position/draw\-mode of window border.
+.RE
+.sp
+\fBwidth\fP [\fI<integer number>\fP]
+.RS 4
+Width of window borders.
+.RE
+.sp
+\fBradius\fP [\fI<floating point number>\fP]
+.RS 4
+Radius of window border corners.
+.RE
+.sp
+\fBactive_color\fP [\fI<0xAARRGGBB>\fP]
+.RS 4
+Color of the border of the focused window.
+.RE
+.sp
+\fBnormal_color\fP [\fI<0xAARRGGBB>\fP]
+.RS 4
+Color of the border of an unfocused window.
+.RE
+.SH "EXIT CODES"
+.sp
+If \fBlimelight\fP can\(cqt handle a message, it will return a non\-zero exit code.
+.SH "AUTHOR"
+.sp
+Åsmund Vikane <aasvi93 at gmail.com>

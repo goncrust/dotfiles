@@ -1,0 +1,90 @@
+:man source:   Limelight
+:man version:  {revnumber}
+:man manual:   Limelight Manual
+
+ifdef::env-github[]
+:toc:
+:toc-title:
+:toc-placement!:
+:numbered:
+endif::[]
+
+limelight(1)
+============
+
+ifdef::env-github[]
+toc::[]
+endif::[]
+
+Name
+----
+
+limelight
+
+Synopsis
+--------
+
+*limelight* [*-v*,*--version*|*-V*,*--verbose*|*-m*,*--message* 'msg'|*-c*,*--config* 'config_file']
+
+Description
+-----------
+
+*limelight* is a port of the window borders implementaion that used to be in yabai.
+
+Options
+-------
+
+*-v*, *--version*::
+    Print the version and exit.
+
+*-V*, *--verbose*::
+    Output debug information to stdout.
+
+*-m*, *--message* '<msg>'::
+    Send message to a running instance of limelight.
+
+*-c*, *--config* '<config_file>'::
+    Use the specified configuration file.
+
+Domains
+-------
+
+Config
+~~~~~~
+
+General Syntax
+^^^^^^^^^^^^^^
+
+limelight -m config <setting>::
+    Get or set the value of <setting>.
+
+Settings
+^^^^^^^^
+
+*debug_output* ['on|off']::
+    Enable output of debug information to stdout.
+
+*placement* ['exterior|interior|inset']::
+    Position/draw-mode of window border.
+
+*width* ['<integer number>']::
+    Width of window borders.
+
+*radius* ['<floating point number>']::
+    Radius of window border corners.
+
+*active_color* ['<0xAARRGGBB>']::
+    Color of the border of the focused window.
+
+*normal_color* ['<0xAARRGGBB>']::
+    Color of the border of an unfocused window.
+
+Exit Codes
+----------
+
+If *limelight* can't handle a message, it will return a non-zero exit code.
+
+Author
+------
+
+Åsmund Vikane <aasvi93 at gmail.com>
