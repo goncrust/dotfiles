@@ -1,0 +1,19 @@
+# Required xvkbd
+# yay -S xvkbd
+
+
+# LeftBracket
+"xvkbd -xsendevent -text "[""
+  m:0x18 + c:64 + m:0x10 + c:17
+
+# RightBracket
+"xvkbd -xsendevent -text "]""
+  m:0x18 + c:64 + m:0x10 + c:18
+
+# LeftKey
+"xvkbd -xsendevent -text "{""
+  m:0x18 + c:64 + m:0x10 + c:16
+
+# RightKey
+"xvkbd -xsendevent -text "}""
+  m:0x18 + c:64 + m:0x10 + c:19
