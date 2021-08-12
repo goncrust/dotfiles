@@ -10,3 +10,4 @@ Almost all the config files I use in my machines.
   - [skhd](https://github.com/koekeishiya/skhd) (keybindings)
   - [limelight](https://github.com/koekeishiya/limelight) (window borders)
   - zsh aliases `wmstart` and `wmstop` to activate and deactivate the Tiling Window Manager mode
+- In `utm-debian` are dotfiles for the debian virtual machine I use in macOS, with [UTM](https://github.com/utmapp/UTM)
