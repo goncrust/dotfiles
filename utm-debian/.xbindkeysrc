@@ -1,0 +1,26 @@
+# Required xvkbd
+# yay -S xvkbd
+
+
+# LeftBracket
+"xvkbd -xsendevent -text "[""
+  m:0x8 + c:64 + m:0x0 + c:17
+
+# RightBracket
+"xvkbd -xsendevent -text "]""
+  m:0x8 + c:64 + m:0x0 + c:18
+
+# LeftKey
+"xvkbd -xsendevent -text "{""
+  m:0x8 + c:64 + m:0x1 + c:50 + m:0x0 + c:17 
+
+# RightKey
+"xvkbd -xsendevent -text "}""
+  m:0x8 + c:64 + m:0x1 + c:50 + m:0x00 + c:18
+
+
+"xvkbd -xsendevent -text "@""
+  m:0x8 + c:64 + m:0x00 + c:11
+
+"xvkbd -xsendevent -text "€""
+  m:0x8 + c:64 + m:0x00 + c:12
