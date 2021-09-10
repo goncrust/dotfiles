@@ -1,0 +1,37 @@
+Config { font    = "xft:Ubuntu:weight=bold:pixelsize=11.3:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Font Awesome 5 Free Solid:pixelsize=12"
+                           , "xft:Font Awesome 5 Brands:pixelsize=12"
+                           ]
+       , bgColor = "#282c34"
+       , fgColor = "#ff6c6b"
+       , position = Top
+       , textOffset = 12
+       , lowerOnStart = True
+       , hideOnStart = False
+       , allDesktops = True
+       , persistent = True
+       , iconRoot = "$HOME/.xmonad/xpm/"  -- default: "."
+       , commands = [
+                    -- Time and date
+                      Run Date "%b %d %Y - %H:%M:%S " "date" 10
+                      -- Network up and down
+                    , Run Network "enp0s31f6" ["-t", "↓ <rx>kb  ↑ <tx>kb"] 20
+                      -- Cpu usage in percent
+                    , Run Cpu ["-t", "CPU: <total>% ","-H","50","--high","red","--low","#98be65","--normal","#ecbe7b"] 20
+                      -- Ram used number and percent
+                    , Run Memory ["-t", "RAM: <used>M "] 20
+                      -- Disk space free
+                    , Run DiskU [("/", "HDD: <free>/<size> ")] [] 60
+                      -- Runs custom script to check for pacman updates.
+                      -- This script is in my dotfiles repo in .local/bin.
+                    , Run Com "$HOME/.local/bin/pacupdate" [] "pacupdate" 36000
+                      -- Runs a standard shell command 'uname -r' to get kernel version
+                    , Run Com "uname" ["-r"] "" 3600
+                    -- system tray icons
+                    , Run Com "$HOME/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "  %UnsafeStdinReader% }<fc=#46d9ff> %date% </fc>{  <fc=#666666>|</fc>  <fc=#ecbe7b> <action=`alacritty -e htop`>%cpu%</action> </fc> <fc=#666666>|</fc>  <fc=#ff6c6b> <action=`alacritty -e htop`>%memory%</action> </fc> <fc=#666666>|</fc>  <fc=#51afef> <action=`alacritty -e htop`>%disku%</action> </fc> <fc=#666666>|</fc>  <fc=#98be65> <action=`alacritty -e sudo iftop`>%enp0s31f6%</action> </fc>  <fc=#666666>|</fc>%trayerpad%"
+       }

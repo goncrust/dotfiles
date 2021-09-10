@@ -12,7 +12,7 @@ import Data.Maybe (fromJust)
 import Data.Monoid
 import Data.Maybe (isJust)
 import qualified Data.Map as M
-import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, dzenColor, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
@@ -60,7 +60,7 @@ myFocusColor  = "#46d9ff"
 myStartupHook :: X ()
 myStartupHook = do
     spawnOnce "picom &"
-    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x1e222a --height 16 --margin 10 --distance 6 &"
+    spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0xf282c34  --height 16 &"
     spawnOnce "xscreensaver &"
     spawnOnce "xbindkeys &"
     spawnOnce "volumeicon &"
@@ -172,7 +172,7 @@ tall     = renamed [Replace "tall"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
-           $ mySpacing 6
+           $ mySpacing 2
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
@@ -224,9 +224,8 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| noBorders tabs
                                  ||| grid
 
--- myWorkspaces = ["1", "2", "3", "4", "5"]
-myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 "]
--- myWorkspaces = [" main ", " dev ", " web ", " social ", " other "]
+-- myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 "]
+myWorkspaces = [" main ", " dev ", " web ", " social ", " other "]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 -- make workspaces clickable
@@ -345,10 +344,10 @@ main = do
         , logHook = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ xmobarPP
               { ppOutput = \x -> hPutStrLn xmproc0 x                          -- xmobar on monitor 1
                               >> hPutStrLn xmproc1 x                          -- xmobar on monitor 2
-              , ppCurrent = xmobarColor "#51afef" "#393d45" . wrap "<box type=Bottom width=2 mb=0 color=#51afef>" "</box>" . wrap "<box type=Top width=2 mb=0 color=#393d45>" "</box>"                         -- Current workspace
-              , ppVisible = xmobarColor "#51afef" "#393d45" . wrap "<box type=Top width=2 mb=0 color=#393d45>" "</box>" . clickable              -- Visible but not current workspace
-              , ppHidden = xmobarColor "#98be65" "" . wrap "<box type=Bottom width=2 mb=0 color=#98be65>" "</box>" . clickable  -- Hidden workspaces
-              , ppHiddenNoWindows = xmobarColor "#b3afc2" ""  . clickable     -- Hidden workspaces (no windows)
+              , ppCurrent = xmobarColor "#98be65" "" . wrap "[" "]"           -- Current workspace
+              , ppVisible = xmobarColor "#98be65" "" . clickable              -- Visible but not current workspace
+              , ppHidden = xmobarColor "#82AAFF" "" . wrap "" "" . clickable  -- Hidden workspaces
+              , ppHiddenNoWindows = xmobarColor "#c792ea" ""  . clickable     -- Hidden workspaces (no windows)
               , ppTitle = xmobarColor "#b3afc2" "" . shorten 60               -- Title of active window
               , ppSep =  "<fc=#666666> | </fc>"                               -- Separator character
               , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"            -- Urgent workspace

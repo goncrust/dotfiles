@@ -1,17 +1,16 @@
-Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antialias=true:hinting=true"
+Config { font    = "xft:Ubuntu:weight=bold:pixelsize=11.3:antialias=true:hinting=true"
        , additionalFonts = [ "xft:Font Awesome 5 Free Solid:pixelsize=12"
                            , "xft:Font Awesome 5 Brands:pixelsize=12"
                            ]
-       -- , bgColor = "#282c34"
-       , bgColor = "#1e222a"
-       , fgColor = "#ecbe7b"
-       , position = Static { xpos = 10, ypos = 6, width = 1900, height = 16 }
-       , lowerOnStart = True
+       , bgColor = "#282c34"
+       , fgColor = "#ff6c6b"
+       , position = Top
        , textOffset = 12
+       , lowerOnStart = True
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , iconRoot = "/home/goncrust/.xmonad/xpm/"  -- default: "."
+       , iconRoot = "$HOME/.xmonad/xpm/"  -- default: "."
        , commands = [
                     -- Time and date
                       Run Date "%b %d %Y - %H:%M:%S " "date" 10
@@ -21,5 +20,5 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }<fc=#ffffff> %date% </fc>{<fc=#b3afc2> <action=`alacritty -e sudo pacman -Syu`>%uname%</action>  </fc>"
+       , template = " %UnsafeStdinReader% }<fc=#46d9ff> %date% </fc>{<fc=#b3afc2> <action=`alacritty -e sudo pacman -Syu`>%uname%</action>  </fc>"
        }
