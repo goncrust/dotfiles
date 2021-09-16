@@ -11,7 +11,7 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , iconRoot = "/home/goncrust/.xmonad/xpm/"  -- default: "."
+       , iconRoot = "$HOME/.xmonad/xpm/"  -- default: "."
        , commands = [
                     -- Time and date
                       Run Date "%b %d %Y - %H:%M:%S " "date" 10
