@@ -12,3 +12,9 @@ Almost all the config files I use in my machines.
   - zsh aliases `wmstart` and `wmstop` to activate and deactivate the Tiling Window Manager mode
 - In **utm-debian** are dotfiles for the debian virtual machine I use in macOS, with [UTM](https://github.com/utmapp/UTM)
 - Some wallpapers I like under **wallpapers** and all the fonts I use in **fontslist.txt**
+
+## Screenshots
+
+### Arch
+
+<img src="arch-screenshot.png" alt="arch">
