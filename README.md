@@ -15,6 +15,6 @@ Almost all the config files I use in my machines.
 
 ## Screenshots
 
-### Arch
+### [XMonad] Arch
 
 <img src="arch-screenshot.png" alt="arch">
