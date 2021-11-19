@@ -9,7 +9,7 @@ set softtabstop=4           " see multiple spaces as tabstops so <BS> does the r
 set expandtab               " converts tabs to white space
 set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
-set relativenumber          " add line numbers
+set number relativenumber          " add line numbers
 set wildmode=longest,list   " get bash-like tab completions
 set cc=100                  " set an 80 column border for good coding style
 filetype plugin indent on   "allow auto-indenting depending on file type
@@ -25,16 +25,24 @@ set ttyfast                 " Speed up scrolling in Vim
 set smartindent
 
 call plug#begin()
- " Plugin Section
+ " Better syntax support
+ Plug 'sheerun/vim-polyglot'
+ " Theme
  Plug 'dracula/vim'
- Plug 'ryanoasis/vim-devicons'
- " Plug 'SirVer/ultisnips'
- " Plug 'honza/vim-snippets'
+ " File explorer
  Plug 'scrooloose/nerdtree'
+ Plug 'ryanoasis/vim-devicons'
+ " Comments
  Plug 'preservim/nerdcommenter'
- Plug 'mhinz/vim-startify'
- Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ " Auto pairs
  Plug 'jiangmiao/auto-pairs'
+ " Startify
+ Plug 'mhinz/vim-startify'
+ " Intellisense
+ Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ " Discord status
+ " Plug 'aurieh/discord.nvim', {'do': ':UpdateRemotePlugins'}
+ Plug 'vim-airline/vim-airline'
 call plug#end()
 
 " color schemes
@@ -60,3 +68,11 @@ vnoremap ‚Äû :m '<-2<CR>gv=gv
  nnoremap <C-j> <C-w>j
  nnoremap <C-k> <C-w>k
  nnoremap <C-l> <C-w>l
+
+" history
+set undodir=~/.vim/undodir
+set undofile
+
+" coc
+source $HOME/.config/nvim/plug-config/coc.vim
+" coc-vimlsp coc-snippets coc-discord-rcp coc-tsserver coc-pyright coc-json
