@@ -11,7 +11,7 @@ source ~/.zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
-export PATH=$PATH:/opt/homebrew/bin
+export PATH=$PATH:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/metasploit-framework/bin
 
 clear
 pfetch
@@ -39,8 +39,79 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v
 export KEYTIMEOUT=1
+
+
+# Prefer vi shortcuts
+bindkey -v
+DEFAULT_VI_MODE=viins
+KEYTIMEOUT=1
+
+__set_cursor() {
+    local style
+    case $1 in
+        reset) style=0;; # The terminal emulator's default
+        blink-block) style=1;;
+        block) style=2;;
+        blink-underline) style=3;;
+        underline) style=4;;
+        blink-vertical-line) style=5;;
+        vertical-line) style=6;;
+    esac
+
+    [ $style -ge 0 ] && print -n -- "\e[${style} q"
+}
+
+# Set your desired cursors here...
+__set_vi_mode_cursor() {
+    case $KEYMAP in
+        vicmd)
+          __set_cursor block
+          ;;
+        main|viins)
+          __set_cursor vertical-line
+          ;;
+    esac
+}
+
+__get_vi_mode() {
+    local mode
+    case $KEYMAP in
+        vicmd)
+          mode=NORMAL
+          ;;
+        main|viins)
+          mode=INSERT
+          ;;
+    esac
+    print -n -- $mode
+}
+
+zle-keymap-select() {
+    __set_vi_mode_cursor
+    zle reset-prompt
+}
+
+zle-line-init() {
+    zle -K $DEFAULT_VI_MODE
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+# Optional: allows you to open the in-progress command inside of $EDITOR
+autoload -Uz edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+zle -N edit-command-line
+
+# PROMPT_SUBST enables functions and variables to re-run everytime the prompt
+# is rendered
+setopt PROMPT_SUBST
+
+# Single quotes are important so that function is not run immediately and saved
+# in the variable
+RPROMPT='$(__get_vi_mode)'
+
 
 # aliases
 alias dev="cd ~/Documents/dev"
