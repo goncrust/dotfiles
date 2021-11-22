@@ -4,6 +4,9 @@
   // python config
   "python.linting.enabled": true,
   "python.linting.pylintEnabled": true,
+  "python.pythonPath": "python3",
+  "python.linting.pylintPath": "/opt/homebrew/bin/pylint",
+  "python.formatting.autopep8Path": "/opt/homebrew/bin/autopep8",
 
   "snippets.ultisnips.directories":
   [
