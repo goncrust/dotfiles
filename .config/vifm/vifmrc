@@ -505,3 +505,76 @@ nnoremap <c-u> <c-w>x
 "     vifm --server-name "$VIFM_SERVER_NAME" --remote +"cd '$PWD'"
 "
 " let $VIFM_SERVER_NAME = v:servername
+
+
+" Ranger devicons for ViFM
+" https://github.com/cirala/vifm_devicons
+"
+" Filetypes/directories
+set classify='Óóø :dir:/,ÔÑ† :exe:,Óòí :reg:,ÔíÅ :link:,? :?:,ÔÅ¢ ::../::'
+
+" Specific files
+set classify+='Óòï ::.Xdefaults,,.Xresources,,.bashprofile,,.bash_profile,,.bashrc,,.dmrc,,.d_store,,.fasd,,.gitconfig,,.gitignore,,.jack-settings,,.mime.types,,.nvidia-settings-rc,,.pam_environment,,.profile,,.recently-used,,.selected_editor,,.xinitpurc,,.zprofile,,.yarnc,,.snclirc,,.tmux.conf,,.urlview,,.config,,.ini,,.user-dirs.dirs,,.mimeapps.list,,.offlineimaprc,,.msmtprc,,.Xauthority,,config::'
+set classify+='Óúá ::dropbox::'
+set classify+='Óò£ ::favicon.*,,README,,readme::'
+set classify+='ÓüÖ ::.vim,,.vimrc,,.gvimrc,,.vifm::'
+set classify+='Óòë ::gruntfile.coffee,,gruntfile.js,,gruntfile.ls::'
+set classify+='Óòê ::gulpfile.coffee,,gulpfile.js,,gulpfile.ls::'
+set classify+='ÔÖï ::ledger::'
+set classify+='Óòä ::license,,copyright,,copying,,LICENSE,,COPYRIGHT,,COPYING::'
+set classify+='Óúò ::node_modules::'
+set classify+='Óò• ::react.jsx::'
+
+" File extensions
+set classify+='Œª ::*.ml,,*.mli::'
+set classify+='ÓòÄ ::*.styl::'
+set classify+='ÓòÉ ::*.scss::'
+set classify+='Óàµ ::*.py,,*.pyc,,*.pyd,,*.pyo::'
+set classify+='Óòà ::*.php::'
+set classify+='Óòâ ::*.markdown,,*.md::'
+set classify+='Óòã ::*.json::'
+set classify+='Óòå ::*.js::'
+set classify+='ÔÄæ ::*.bmp,,*.gif,,*.ico,,*.jpeg,,*.jpg,,*.png,,*.svg,,*.svgz,,*.tga,,*.tiff,,*.xmb,,*.xcf,,*.xpm,,*.xspf,,*.xwd,,*.cr2,,*.dng,,*.3fr,,*.ari,,*.arw,,*.bay,,*.crw,,*.cr3,,*.cap,,*.data,,*.dcs,,*.dcr,,*.drf,,*.eip,,*.erf,,*.fff,,*.gpr,,*.iiq,,*.k25,,*.kdc,,*.mdc,,*.mef,,*.mos,,*.mrw,,*.obm,,*.orf,,*.pef,,*.ptx,,*.pxn,,*.r3d,,*.raf,,*.raw,,*.rwl,,*.rw2,,*.rwz,,*.sr2,,*.srf,,*.srw,,*.tif,,*.x3f::'
+set classify+='Óòé ::*.ejs,,*.htm,,*.html,,*.slim,,*.xml::'
+set classify+='Óòè ::*.mustasche::'
+set classify+='Óòî ::*.css,,*.less,,*.bat,,*.conf,,*.ini,,*.rc,,*.yml,,*.cfg::'
+set classify+='Óòô ::*.rss::'
+set classify+='Óòõ ::*.coffee::'
+set classify+='Óòú ::*.twig::'
+set classify+='Óòù ::*.c++,,*.cpp,,*.cxx,,*.h::'
+set classify+='Óòû ::*.cc,,*.c::'
+set classify+='Óòü ::*.hs,,*.lhs::'
+set classify+='Óò† ::*.lua::'
+set classify+='Óò§ ::*.jl::'
+set classify+='Óòß ::*.go::'
+set classify+='Óò® ::*.ts::'
+set classify+='ÓúÜ ::*.db,,*.dump,,*.sql::'
+set classify+='Óúå ::*.sln,,*.suo::'
+set classify+='Óúè ::*.exe::'
+set classify+='Óú® ::*.diff,,*.sum,,*.md5,,*.sha512::'
+set classify+='Óú∑ ::*.scala::'
+set classify+='Óú∏ ::*.java,,*.jar::'
+set classify+='ÓùÖ ::*.xul::'
+set classify+='Óù® ::*.clj,,*.cljc::'
+set classify+='Óù© ::*.pl,,*.pm,,*.t::'
+set classify+='Óù™ ::*.cljs,,*.edn::'
+set classify+='Óûë ::*.rb::'
+set classify+='Óûï ::*.fish,,*.sh,,*.bash::'
+set classify+='Óûò ::*.dart::'
+set classify+='Óûß ::*.f#,,*.fs,,*.fsi,,*.fsscript,,*.fsx::'
+set classify+='Óû® ::*.rlib,,*.rs::'
+set classify+='ÓûØ ::*.d::'
+set classify+='Óû± ::*.erl,,*.hrl::'
+set classify+='Óû¥ ::*.ai::'
+set classify+='Óû∏ ::*.psb,,*.psd::'
+set classify+='Óû∫ ::*.jsx::'
+set classify+='ÔÄÅ ::*.aac,,*.anx,,*.asf,,*.au,,*.axa,,*.flac,,*.m2a,,*.m4a,,*.mid,,*.midi,,*.mp3,,*.mpc,,*.oga,,*.ogg,,*.ogx,,*.ra,,*.ram,,*.rm,,*.spx,,*.wav,,*.wma,,*.ac3::'
+set classify+='ÔÄà ::*.avi,,*.flv,,*.mkv,,*.mov,,*.mp4,,*.mpeg,,*.mpg,,*.webm::'
+set classify+='ÔÄ≠ ::*.epub,,*.pdf,,*.fb2,,*.djvu::'
+set classify+='ÔÜá ::*.7z,,*.apk,,*.bz2,,*.cab,,*.cpio,,*.deb,,*.gem,,*.gz,,*.gzip,,*.lh,,*.lzh,,*.lzma,,*.rar,,*.rpm,,*.tar,,*.tgz,,*.xz,,*.zip::'
+set classify+='ÔÅµ ::*.cbr,,*.cbz::'
+set classify+='Ôá™ ::*.log::'
+set classify+='ÔáÇ ::*.doc,,*.docx,,*.adoc::'
+set classify+='ÔáÉ ::*.xls,,*.xlsmx::'
+set classify+='ÔáÑ ::*.pptx,,*.ppt::'
+
