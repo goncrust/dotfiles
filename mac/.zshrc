@@ -22,7 +22,7 @@ source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # HISTORY
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=~/zsh_history
+HISTFILE=~/.zsh_history
 setopt HIST_IGNORE_ALL_DUPS  # do not put duplicated command into history list
 setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
 setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
