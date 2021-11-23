@@ -17,9 +17,9 @@ window:
   #
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
-  #dimensions:
-  #  columns: 0
-  #  lines: 0
+  dimensions:
+    columns: 150
+    lines: 40
 
   # Window position (changes require restart)
   #
@@ -109,7 +109,9 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Source Code Pro
+    # family: Source Code Pro
+    # family: MesloLGS NF
+    family: Hack Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -128,7 +130,9 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    # family: Source Code Pro
+    # family: MesloLGS NF
+    family: Hack Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -147,7 +151,9 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    # family: Source Code Pro
+    # family: MesloLGS NF
+    family: Hack Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -166,7 +172,9 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    # family: Source Code Pro
+    # family: MesloLGS NF
+    family: Hack Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -180,7 +188,8 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 10.0
+  #size: 10.0
+  size: 15.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -218,8 +227,10 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    background: '0x282c34'
-    foreground: '0xbbc2cf'
+    #background: '0x282c34'
+    #foreground: '0xbbc2cf'
+    background: '0x171717'
+    foreground: '0xe2e5e9'
 
     # Bright and dim foreground colors
     #
@@ -247,25 +258,42 @@ colors:
 
   # Normal colors
   normal:
-    black:   '0x1c1f24'
-    red:     '0xff6c6b'
-    green:   '0x98be65'
-    yellow:  '0xda8548'
-    blue:    '0x51afef'
-    magenta: '0xc678dd'
-    cyan:    '0x5699af'
-    white:   '0x202328'
+    #black:   '0x1c1f24'
+    #red:     '0xff6c6b'
+    #green:   '0x98be65'
+    #yellow:  '0xda8548'
+    #blue:    '0x51afef'
+    #magenta: '0xc678dd'
+    #cyan:    '0x5699af'
+    #white:   '0x202328'
+    black:   '0x343a43'
+    red:     '0xe78287'
+    green:   '0xa7cb8b'
+    yellow:  '0xeaca8d'
+    blue:    '0x71bdf2'
+    magenta: '0xd190e3'
+    cyan:    '0x65c1cd'
+    white:   '0xe2e5e9'
+    
 
   # Bright colors
   bright:
-    black:   '0x5b6268'
-    red:     '0xda8548'
-    green:   '0x4db5bd'
-    yellow:  '0xecbe7b'
-    blue:    '0x3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
-    magenta: '0xa9a1e1'
-    cyan:    '0x46d9ff'
-    white:   '0xdfdfdf'
+    #black:   '0x5b6268'
+    #red:     '0xda8548'
+    #green:   '0x4db5bd'
+    #yellow:  '0xecbe7b'
+    #blue:    '0x3071db'
+    #magenta: '0xa9a1e1'
+    #cyan:    '0x46d9ff'
+    #white:   '0xdfdfdf'
+    black:   '0x343a43'
+    red:     '0xe78287'
+    green:   '0xa7cb8b'
+    yellow:  '0xeaca8d'
+    blue:    '0x71bdf2'
+    magenta: '0xd190e3'
+    cyan:    '0x65c1cd'
+    white:   '0xe2e5e9'
 
   # Dim colors
   #
@@ -322,7 +350,8 @@ colors:
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
 # background_opacity: 1.0
-background_opacity: 0.90
+#background_opacity: 0.90
+background_opacity: 0.98
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -360,6 +389,7 @@ background_opacity: 0.90
 #   - (Windows) powershell
 shell:
   program: /bin/zsh
+  #program: /usr/local/bin/fish
 #  args:
 #    - --login
 
