@@ -6,7 +6,6 @@ call plug#begin()
  Plug 'sheerun/vim-polyglot'
  " File explorer
  Plug 'scrooloose/nerdtree'
- Plug 'ryanoasis/vim-devicons'
  " Auto pairs
  Plug 'jiangmiao/auto-pairs'
  " Theme
@@ -17,10 +16,18 @@ call plug#begin()
  Plug 'mhinz/vim-startify'
  " Intellisense
  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+ " Snippets
+ Plug 'honza/vim-snippets'
  " Discord status
  " Plug 'aurieh/discord.nvim', {'do': ':UpdateRemotePlugins'}
  Plug 'vim-airline/vim-airline'
  " Plug 'vim-airline/vim-airline-themes'
+ " Colorizer
+ Plug 'norcalli/nvim-colorizer.lua' 
+ " Rainbow parantheses
+ Plug 'junegunn/rainbow_parentheses.vim'
+ " Devicons
+ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 
@@ -30,6 +37,12 @@ source $HOME/.config/nvim/plug-config/coc.vim
 
 "           Airline Config
 source $HOME/.config/nvim/themes/airline.vim
+
+"           Rainbow Config
+source $HOME/.config/nvim/plug-config/rainbow.vim
+
+"           Startify Config
+source $HOME/.config/nvim/plug-config/start-screen.vim
 
 
 "           General Settings
@@ -85,6 +98,9 @@ cmap w!! w !sudo tee %
  endif
  syntax enable
 colorscheme dracula
+
+"           Colorizer Config
+lua require'plug-colorizer'
 
 
 "           KeyBindings
