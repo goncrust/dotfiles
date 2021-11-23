@@ -5,16 +5,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source ~/.zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
+# Created by newuser for 5.8
+source ~/.zsh-plugins/.powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-export PATH=$PATH:/opt/homebrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/metasploit-framework/bin
-
 clear
-pfetch
+colorscript -r
 
 # syntax highlighting
 source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -22,7 +20,7 @@ source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # HISTORY
 HISTSIZE=1000
 SAVEHIST=1000
-HISTFILE=~/.zsh_history
+HISTFILE=~/.cache/zsh/history
 setopt HIST_IGNORE_ALL_DUPS  # do not put duplicated command into history list
 setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
 setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
@@ -114,8 +112,5 @@ RPROMPT='$(__get_vi_mode)'
 
 
 # aliases
-alias dev="cd ~/Documents/dev"
-alias ls="ls -G"
-alias clear="clear;pfetch"
-alias wmstart="brew services start yabai;brew services start skhd"
-alias wmstop="brew services stop yabai;brew services stop skhd;killall limelight"
+alias dev="cd /first-hdd/dev"
+alias ls="ls --color=auto"
