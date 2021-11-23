@@ -1,6 +1,6 @@
 # dotfiles
 
-Almost all the config files I use in my machines.
+The config files I use in my machines.
 
 ## Info
 
