@@ -12,8 +12,10 @@
 
 # LeftKey
 "xvkbd -xsendevent -text "{""
-  m:0x18 + c:64 + m:0x10 + c:16
+  m:0x18 + c:64 + m:0x1 + c:50 + m:0x10 + c:17
+  #m:0x18 + c:64 + m:0x10 + c:16
 
 # RightKey
 "xvkbd -xsendevent -text "}""
-  m:0x18 + c:64 + m:0x10 + c:19
+  m:0x18 + c:64 + m:0x1 + c:50 + m:0x10 + c:18
+  #m:0x18 + c:64 + m:0x10 + c:19

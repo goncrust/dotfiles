@@ -6,16 +6,20 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Created by newuser for 5.8
-source ~/.zsh-plugins/.powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 clear
-colorscript -r
+pfetch
 
 # syntax highlighting
 source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # HISTORY
 HISTSIZE=1000
@@ -114,3 +118,4 @@ RPROMPT='$(__get_vi_mode)'
 # aliases
 alias dev="cd /first-hdd/dev"
 alias ls="ls --color=auto"
+alias clear="clear;pfetch"
