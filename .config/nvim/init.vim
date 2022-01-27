@@ -28,12 +28,16 @@ call plug#begin()
  Plug 'junegunn/rainbow_parentheses.vim'
  " Devicons
  Plug 'ryanoasis/vim-devicons'
-call plug#end()
+ " fzf
+ Plug 'junegunn/fzf' 
+ Plug 'junegunn/fzf.vim' 
+ call plug#end()
 
 
 "           Coc Config
 source $HOME/.config/nvim/plug-config/coc.vim
 " coc-vimlsp coc-snippets coc-discord-rcp coc-tsserver coc-pyright coc-json
+" coc-clangd coc-java
 
 "           Airline Config
 source $HOME/.config/nvim/themes/airline.vim
@@ -46,7 +50,7 @@ source $HOME/.config/nvim/plug-config/start-screen.vim
 
 
 "           General Settings
-"let g:mapleader = "\<Space>"            " Set leader key
+let g:mapleader = "\<Space>"            " Set leader key
 syntax on                               " Enables syntax highlighing
 filetype plugin indent on               " allow auto-indenting depending on file type
 set hidden                              " Required to keep multiple buffers open multiple buffers
@@ -109,10 +113,10 @@ inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
 
 " Use alt + hjkl to resize windows
-nnoremap ¬Ø :resize -2<CR>
-nnoremap ‚Äû :resize +2<CR>
-nnoremap Àá :vertical resize +2<CR>
-nnoremap ‚Äò :vertical resize -2<CR>
+nnoremap <A-k> :resize -2<CR>
+nnoremap <A-j> :resize +2<CR>
+nnoremap <A-h> :vertical resize +2<CR>
+nnoremap <A-l> :vertical resize -2<CR>
 
 " Easy CAPS
 inoremap <c-u> <ESC>viwUi
@@ -141,11 +145,20 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " move line or visually selected block - alt+j/k
-inoremap ¬Ø <Esc>:m .+1<CR>==gi
-inoremap ‚Äû <Esc>:m .-2<CR>==gi
-vnoremap ¬Ø :m '>+1<CR>gv=gv
-vnoremap ‚Äû :m '<-2<CR>gv=gv
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" NERDTree
+nmap <C-f> :NERDTreeToggle<CR>
+" startup
+autocmd VimEnter * NERDTree | wincmd p
+" close auto if last window
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" fzf
+nmap <C-p> :Files<CR>
 
 "           History
 set undodir=~/.vim/undodir
