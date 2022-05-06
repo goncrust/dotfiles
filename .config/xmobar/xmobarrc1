@@ -5,7 +5,7 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
        -- , bgColor = "#282c34"
        , bgColor = "#1e222a"
        , fgColor = "#ecbe7b"
-       , position = Static { xpos = 10, ypos = 6, width = 1900, height = 16 }
+       , position = Static { xpos = 10, ypos = 6, width = 1060, height = 16 }
        , lowerOnStart = True
        , textOffset = 12
        , hideOnStart = False
@@ -14,7 +14,7 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
        , iconRoot = "$HOME/.xmonad/xpm/"  -- default: "."
        , commands = [
                     -- Time and date
-                      Run Date "%b %d %Y - %H:%M:%S " "date" 10
+                      Run Date "%d %b %Y - %H:%M:%S " "date" 10
                       -- Runs a standard shell command 'uname -r' to get kernel version
                     , Run Com "uname" ["-r"] "" 3600
                     , Run UnsafeStdinReader

@@ -13,13 +13,15 @@ env:
   TERM: xterm-256color
 
 window:
+  opacity: 0.9
+
   # Window dimensions (changes require restart)
   #
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
   dimensions:
-    columns: 150
-    lines: 40
+    columns: 120
+    lines: 30
 
   # Window position (changes require restart)
   #
@@ -112,6 +114,7 @@ font:
     # family: Source Code Pro
     # family: MesloLGS NF
     family: Hack Nerd Font
+    # family: JetBrainsMono Nerd Font
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -131,8 +134,9 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     # family: Source Code Pro
-    # family: MesloLGS NF
     family: Hack Nerd Font
+    # family: CodeNewRoman Nerd Font
+    # family: MesloLGS NF
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -351,7 +355,6 @@ colors:
 # The value `0.0` is completely transparent and `1.0` is opaque.
 # background_opacity: 1.0
 #background_opacity: 0.90
-background_opacity: 0.98
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -410,7 +413,7 @@ shell:
 #winpty_backend: false
 
 # Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: false
+#alt_send_esc: false
 
 #debug:
   # Display the time it takes to redraw each frame.

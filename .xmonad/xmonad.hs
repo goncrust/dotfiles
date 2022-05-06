@@ -256,8 +256,10 @@ myKeys =
         , ("M-S-q", io exitSuccess)            -- quit xmonad
 
     -- Launch
-        , ("M-S-<Return>", spawn "dmenu_run -fn 'Ubuntu-9' -i -p \"Run: \"")   -- dmenu
-        , ("M-p", spawn "dmenu_run -fn 'Ubuntu-9' -i -p \"Run: \"")            -- dmenu
+        , ("M-S-<Return>", spawn "/home/goncrust/.config/rofi/launchers/colorful/launcher.sh")   -- rofi themed
+        -- , ("M-S-<Return>", spawn "rofi -show run")   -- rofi
+        -- , ("M-S-<Return>", spawn "dmenu_run -fn 'Ubuntu-9' -i -p \"Run: \"")   -- dmenu
+        -- , ("M-p", spawn "dmenu_run -fn 'Ubuntu-9' -i -p \"Run: \"")            -- dmenu
         , ("M-<Return>", spawn (myTerminal))                                   -- terminal
 
     -- Kill windows
@@ -268,11 +270,16 @@ myKeys =
         , ("M-.", nextScreen)                          -- next monitor
         , ("M-,", prevScreen)                          -- previous monitor
         -- Custom keybinds for workspaces
-        , ("M-6", windows $ W.greedyView " main ")
-        , ("M-7", windows $ W.greedyView " dev ")
-        , ("M-8", windows $ W.greedyView " web ")
-        , ("M-9", windows $ W.greedyView " social ")
-        , ("M-0", windows $ W.greedyView " other ")
+        , ("M-1", windows $ W.greedyView " 1 ")
+        , ("M-2", windows $ W.greedyView " 2 ")
+        , ("M-3", windows $ W.greedyView " 3 ")
+        , ("M-4", windows $ W.greedyView " 4 ")
+        , ("M-5", windows $ W.greedyView " 5 ")
+        , ("M-6", windows $ W.greedyView " 1 ")
+        , ("M-7", windows $ W.greedyView " 2 ")
+        , ("M-8", windows $ W.greedyView " 3 ")
+        , ("M-9", windows $ W.greedyView " 4 ")
+        , ("M-0", windows $ W.greedyView " 5 ")
 
     -- Floating windows
         , ("M-t", withFocused $ windows . W.sink)  -- floating window to tile

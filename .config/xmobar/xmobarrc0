@@ -5,13 +5,13 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
        -- , bgColor = "#282c34"
        , bgColor = "#1e222a"
        , fgColor = "#ecbe7b"
-       , position = Static { xpos = 1930, ypos = 6, width = 1900, height = 16 }
+       , position = Static { xpos = 1090, ypos = 6, width = 1900, height = 16 }
        , textOffset = 12
        , lowerOnStart = True
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , iconRoot = "$HOME/.xmonad/xpm/"  -- default: "."
+       , iconRoot = "/home/goncrust/.xmonad/xpm/"  -- default: "."
        , commands = [
                     -- Time and date
                       Run Date "%d %b %Y - %H:%M:%S " "date" 10
@@ -37,7 +37,7 @@ Config { font    = "xft:JetBrainsMono Nerd Font:weight=bold:pixelsize=10:antiali
                       -- Runs a standard shell command 'uname -r' to get kernel version
                     , Run Com "uname" ["-r"] "" 3600
                     -- system tray icons
-                    , Run Com "$HOME/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    , Run Com "/home/goncrust/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
                     , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
