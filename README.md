@@ -18,3 +18,7 @@ The config files I use in my machines.
 ### [XMonad] Arch
 
 <img src="arch-screenshot.png" alt="arch">
+
+### [DWM] Asahi
+
+<img src="asahi-screenshot.png" alt="asahi">
