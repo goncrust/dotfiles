@@ -16,8 +16,8 @@ let g:startify_bookmarks = [
             \ { 'c': '~/.xmonad/xmonad.hs' },
             \ { 'n': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
-            \ '~/Documents/dev',
-            \ '~/Documents/dev/SchoolProjects',
+            \ '/first-hdd/dev',
+            \ '/first-hdd/dev/SchoolProjects',
             \ ]
 
 let g:startify_fortune_use_unicode = 1

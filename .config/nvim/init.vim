@@ -6,6 +6,8 @@ call plug#begin()
  Plug 'sheerun/vim-polyglot'
  " File explorer
  Plug 'scrooloose/nerdtree'
+ " Terminal
+ Plug 'akinsho/toggleterm.nvim'
  " Auto pairs
  Plug 'jiangmiao/auto-pairs'
  " Theme
@@ -103,8 +105,9 @@ cmap w!! w !sudo tee %
  syntax enable
 colorscheme dracula
 
-"           Colorizer Config
+"           Lua Configs
 lua require'plug-colorizer'
+lua require'plug-toggleterm'
 
 
 "           KeyBindings
