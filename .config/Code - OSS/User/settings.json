@@ -1,0 +1,110 @@
+//CONFIG
+{
+    // Controls which editor is shown at startup, if none are restored from the previous session.
+    //  - none: Start without an editor.
+    //  - welcomePage: Open the Welcome page (default).
+    //  - readme: Open the README when opening a folder that contains one, fallback to 'welcomePage' otherwise.
+    //  - newUntitledFile: Open a new untitled file (only applies when opening an empty workspace).
+    //  - welcomePageInEmptyWorkbench: Open the Welcome page when opening an empty workbench.
+    "workbench.startupEditor": "none",
+    // Set color theme
+    "workbench.colorTheme": "Material Theme Palenight High Contrast",
+    // Set icon theme
+    "workbench.iconTheme": "material-icon-theme",
+    // Format files on save
+    "editor.formatOnSave": true,
+    // Code-runner execution commands
+    "code-runner.executorMap": {
+        "javascript": "node",
+        "java": "cd &dir && javac $fileName && java $fileNameWithoutExt",
+        "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+        "php": "php",
+        "python": "py",
+        "perl": "perl",
+        "perl6": "perl6",
+        "ruby": "ruby",
+        "go": "go run",
+        "lua": "lua",
+        "groovy": "groovy",
+        "powershell": "powershell -ExecutionPolicy ByPass -File",
+        "bat": "cmd /c",
+        "shellscript": "bash",
+        "fsharp": "fsi",
+        "csharp": "scriptcs",
+        "vbscript": "cscript --Nologo",
+        "typescript": "ts-node",
+        "coffeescript": "coffee",
+        "scala": "scala",
+        "swift": "swift",
+        "julia": "julia",
+        "crystal": "crystal",
+        "ocaml": "ocaml",
+        "r": "Rscript",
+        "applescript": "osascript",
+        "clojure": "lein exec",
+        "haxe": "haxe --cwd $dirWithoutTrailingSlash --run $fileNameWithoutExt",
+        "rust": "cd $dir && rustc $fileName && $dir$fileNameWithoutExt",
+        "racket": "racket",
+        "ahk": "autohotkey",
+        "autoit": "autoit3",
+        "dart": "dart",
+        "pascal": "cd $dir && fpc $fileName && $dir$fileNameWithoutExt",
+        "d": "cd $dir && dmd $fileName && $dir$fileNameWithoutExt",
+        "haskell": "runhaskell",
+        "nim": "nim compile --verbosity:0 --hints:off --run"
+    },
+    // Python path when "Run python file in terminal"
+    "python.pythonPath": "python",
+    // pylint ignore pygame module (because it gives errors)
+    "python.linting.pylintArgs": [
+        "--ignore-modules=pygame"
+    ],
+    // Git lens preferences
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.currentLine.enabled": false,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "editor.fontSize": 18,
+    "python.languageServer": "Pylance",
+    "C_Cpp.updateChannel": "Insiders",
+    "python.showStartPage": false,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "editor.lineNumbers": "relative",
+    // Fix caps lock for esc on vim mode
+    "keyboard.dispatch": "keyCode"
+}
+/*
+2gua.rainbow-brackets
+alefragnani.Bookmarks
+eamodio.gitlens
+Equinusocio.vsc-community-material-theme
+Equinusocio.vsc-material-theme
+equinusocio.vsc-material-theme-icons
+formulahendry.code-runner
+ms-dotnettools.csharp
+ms-python.python
+ms-python.vscode-pylance
+ms-toolsai.jupyter
+ms-vscode-remote.remote-wsl
+ms-vscode.cpptools
+PKief.material-icon-theme
+redhat.java
+ritwickdey.LiveServer
+VisualStudioExptTeam.vscodeintellicode
+vscjava.vscode-java-debug
+vscjava.vscode-java-dependency
+vscjava.vscode-java-pack
+vscjava.vscode-java-test
+vscjava.vscode-maven
+vscodevim.vim
+*/
