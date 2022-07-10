@@ -1,58 +1,45 @@
+" ------------------ VIM CONFIG ------------------ "
 
-
-"           Plugins
+" --------- Plugins --------- "
 call plug#begin()
- " Better syntax support
- Plug 'sheerun/vim-polyglot'
- " File explorer
- Plug 'scrooloose/nerdtree'
- " Terminal
- Plug 'akinsho/toggleterm.nvim'
- " Auto pairs
- Plug 'jiangmiao/auto-pairs'
- " Theme
- Plug 'dracula/vim'
- " Comments
- Plug 'preservim/nerdcommenter'
- " Startify
- Plug 'mhinz/vim-startify'
- " Intellisense
- Plug 'neoclide/coc.nvim', {'branch': 'release'}
- " Snippets
- Plug 'honza/vim-snippets'
- " Discord status
- " Plug 'aurieh/discord.nvim', {'do': ':UpdateRemotePlugins'}
- Plug 'vim-airline/vim-airline'
- " Plug 'vim-airline/vim-airline-themes'
- " Colorizer
- Plug 'norcalli/nvim-colorizer.lua' 
- " Rainbow parantheses
- Plug 'junegunn/rainbow_parentheses.vim'
- " Devicons
- Plug 'ryanoasis/vim-devicons'
- " fzf
- Plug 'junegunn/fzf' 
- Plug 'junegunn/fzf.vim' 
- call plug#end()
+ Plug 'sheerun/vim-polyglot'                        " Better syntax support
+ Plug 'scrooloose/nerdtree'                         " File explorer
+ Plug 'akinsho/toggleterm.nvim'                     " Terminal
+ Plug 'jiangmiao/auto-pairs'                        " Auto pairs
+ Plug 'dracula/vim'                                 " Theme
+ Plug 'preservim/nerdcommenter'                     " Comments
+ Plug 'mhinz/vim-startify'                          " Startify
+ Plug 'neoclide/coc.nvim', {'branch': 'release'}    " Intellisense
+    " coc-vimlsp 
+    " coc-snippets 
+    " coc-discord-rcp 
+    " coc-tsserver 
+    " coc-pyright 
+    " coc-json
+    " coc-clangd
+    " coc-java
+ " Plug 'honza/vim-snippets'                        " Snippets
+ Plug 'vim-airline/vim-airline'                     " Airline
+ " Plug 'vim-airline/vim-airline-themes'            " Airline themes
+ Plug 'norcalli/nvim-colorizer.lua'                 " Colorizer
+ Plug 'junegunn/rainbow_parentheses.vim'            " Rainbow parantheses
+ Plug 'ryanoasis/vim-devicons'                      " Devicons
+ Plug 'junegunn/fzf'                                " fzf
+ Plug 'junegunn/fzf.vim'                            " fzf
+ Plug 'mhinz/vim-signify'                           " Git diffs
+call plug#end()
 
+" --------- Config Files --------- "
+source $HOME/.config/nvim/plug-config/coc.vim           " Coc
+source $HOME/.config/nvim/themes/airline.vim            " Airline
+source $HOME/.config/nvim/plug-config/rainbow.vim       " Rainbow
+source $HOME/.config/nvim/plug-config/start-screen.vim  " Startify
 
-"           Coc Config
-source $HOME/.config/nvim/plug-config/coc.vim
-" coc-vimlsp coc-snippets coc-discord-rcp coc-tsserver coc-pyright coc-json
-" coc-clangd coc-java
+" --------- Leader Key --------- "
+let mapleader = "\<Space>"
+map <Space> <Leader>
 
-"           Airline Config
-source $HOME/.config/nvim/themes/airline.vim
-
-"           Rainbow Config
-source $HOME/.config/nvim/plug-config/rainbow.vim
-
-"           Startify Config
-source $HOME/.config/nvim/plug-config/start-screen.vim
-
-
-"           General Settings
-let g:mapleader = "\<Space>"            " Set leader key
+" --------- General Settings --------- "
 syntax on                               " Enables syntax highlighing
 filetype plugin indent on               " allow auto-indenting depending on file type
 set hidden                              " Required to keep multiple buffers open multiple buffers
@@ -85,7 +72,6 @@ set nobackup                            " This is recommended by coc
 set nowritebackup                       " This is recommended by coc
 set updatetime=300                      " Faster completion
 set timeoutlen=500                      " By default timeoutlen is 1000 ms
-set formatoptions-=cro                  " Stop newline continution of comments
 set clipboard=unnamedplus               " Copy paste between vim and everything else
 set autochdir                           " Your working directory will always be the same as your working directory
 set ignorecase                          " case insensitive
@@ -94,23 +80,35 @@ set wildoptions+=pum                    " command line tab completions
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 set cc=100                              " set an 100 column border for good coding style
 set ttyfast                             " Speed up scrolling in Vim
+set signcolumn=auto                     " Show signs in new column
 " You can't stop me
 cmap w!! w !sudo tee %
 
+" Remember last position in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
 
-"           Color Scheme
- if (has("termguicolors"))
+" Stop newline continution of comments
+autocmd FileType * set formatoptions-=cro
+
+" --------- History Setup --------- "
+set undodir=~/.vim/undodir
+set undofile
+
+" --------- Color Scheme --------- "
+if (has("termguicolors"))
  set termguicolors
- endif
- syntax enable
+endif
+syntax enable
 colorscheme dracula
 
-"           Lua Configs
+" --------- lua Config Files --------- "
 lua require'plug-colorizer'
 lua require'plug-toggleterm'
 
-
-"           KeyBindings
+" --------- Key Bindings --------- "
 " Better nav for omnicomplete
 inoremap <expr> <c-j> ("\<C-n>")
 inoremap <expr> <c-k> ("\<C-p>")
@@ -153,17 +151,28 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" NERDTree
+" Close current buffer without closing vim
+nnoremap <leader>q :bp<cr>:bd #<cr>
+
+" --------- NERDTree Config --------- "
 nmap <C-f> :NERDTreeToggle<CR>
 " startup
 autocmd VimEnter * NERDTree | wincmd p
 " close auto if last window
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
-" fzf
+" --------- fzf Config --------- "
 nmap <C-p> :Files<CR>
 
-"           History
-set undodir=~/.vim/undodir
-set undofile
+" --------- signify Config --------- "
+let g:signify_sign_add               = '+'
+let g:signify_sign_delete            = '_'
+let g:signify_sign_delete_first_line = '‾'
+let g:signify_sign_change            = '~'
+let g:signify_sign_show_count = 1
+let g:signify_sign_show_text = 1
+
+" Jump though hunks
+nmap <leader>gj <plug>(signify-next-hunk)
+nmap <leader>gk <plug>(signify-prev-hunk)
 
