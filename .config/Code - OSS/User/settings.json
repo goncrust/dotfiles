@@ -5,9 +5,8 @@
     "workbench.startupEditor": "none",
     // Format files on save
     "editor.formatOnSave": true,
-    // Set color theme
+    // Theme
     "workbench.colorTheme": "Material Theme Palenight High Contrast",
-    // Set icon theme
     "workbench.iconTheme": "material-icon-theme",
     // Fonts
     "editor.fontSize": 15,
@@ -679,11 +678,10 @@
     },
 }
 /* ------------- Extensions ------------- */
-/* 
-code --install-extension alefragnani.Bookmarks
+/*
+code --install-extension asvetliakov.vscode-neovim
 code --install-extension CoenraadS.bracket-pair-colorizer-2
 code --install-extension eamodio.gitlens
-code --install-extension Equinusocio.vsc-community-material-theme
 code --install-extension Equinusocio.vsc-material-theme
 code --install-extension equinusocio.vsc-material-theme-icons
 code --install-extension formulahendry.code-runner
@@ -695,5 +693,5 @@ code --install-extension ms-toolsai.jupyter-renderers
 code --install-extension PKief.material-icon-theme
 code --install-extension redhat.java
 code --install-extension ritwickdey.LiveServer
-code --install-extension vscodevim.vim
+code --install-extension VSpaceCode.whichkey 
 */
