@@ -13,6 +13,10 @@
     "workbench.iconTheme": "material-icon-theme",
     // Format files on save
     "editor.formatOnSave": true,
+    // Fonts
+    "editor.fontSize": 19,
+    // Terminal
+    "terminal.integrated.fontFamily": "Hack Nerd Font",
     // Code-runner execution commands
     "code-runner.executorMap": {
         "javascript": "node",
@@ -72,7 +76,6 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
-    "editor.fontSize": 18,
     "python.languageServer": "Pylance",
     "C_Cpp.updateChannel": "Insiders",
     "python.showStartPage": false,
@@ -81,30 +84,29 @@
     },
     "editor.lineNumbers": "relative",
     // Fix caps lock for esc on vim mode
-    "keyboard.dispatch": "keyCode"
+    "keyboard.dispatch": "keyCode",
+    // Set tab size
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    // VIM config
+    "vim.useSystemClipboard": true
 }
-/*
-2gua.rainbow-brackets
-alefragnani.Bookmarks
-eamodio.gitlens
-Equinusocio.vsc-community-material-theme
-Equinusocio.vsc-material-theme
-equinusocio.vsc-material-theme-icons
-formulahendry.code-runner
-ms-dotnettools.csharp
-ms-python.python
-ms-python.vscode-pylance
-ms-toolsai.jupyter
-ms-vscode-remote.remote-wsl
-ms-vscode.cpptools
-PKief.material-icon-theme
-redhat.java
-ritwickdey.LiveServer
-VisualStudioExptTeam.vscodeintellicode
-vscjava.vscode-java-debug
-vscjava.vscode-java-dependency
-vscjava.vscode-java-pack
-vscjava.vscode-java-test
-vscjava.vscode-maven
-vscodevim.vim
+/* ------------- Extensions -------------
+code --install-extension alefragnani.Bookmarks
+code --install-extension CoenraadS.bracket-pair-colorizer-2
+code --install-extension eamodio.gitlens
+code --install-extension Equinusocio.vsc-community-material-theme
+code --install-extension Equinusocio.vsc-material-theme
+code --install-extension equinusocio.vsc-material-theme-icons
+code --install-extension formulahendry.code-runner
+code --install-extension llvm-vs-code-extensions.vscode-clangd
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+code --install-extension ms-toolsai.jupyter-keymap
+code --install-extension ms-toolsai.jupyter-renderers
+code --install-extension PKief.material-icon-theme
+code --install-extension redhat.java
+code --install-extension ritwickdey.LiveServer
+code --install-extension vscodevim.vim
 */
