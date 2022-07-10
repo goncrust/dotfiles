@@ -21,6 +21,9 @@
     "editor.detectIndentation": false,
     "editor.autoIndent": "full",
     // Other settings
+    "editor.rulers": [
+        100
+    ],
     "editor.cursorBlinking": "solid",
     "editor.minimap.enabled": true,
     "editor.lineNumbers": "relative",
@@ -674,7 +677,6 @@
         "haskell": "runhaskell",
         "nim": "nim compile --verbosity:0 --hints:off --run"
     },
-    "workbench.activityBar.visible": false,
 }
 /* ------------- Extensions ------------- */
 /* 
