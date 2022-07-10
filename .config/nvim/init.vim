@@ -1,4 +1,5 @@
 " ------------------ VIM CONFIG ------------------ "
+if !exists('g:vscode')
 
 " --------- Plugins --------- "
 call plug#begin()
@@ -27,11 +28,12 @@ call plug#begin()
  Plug 'junegunn/fzf'                                " fzf
  Plug 'junegunn/fzf.vim'                            " fzf
  Plug 'mhinz/vim-signify'                           " Git diffs
+ Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
 " --------- Config Files --------- "
-source $HOME/.config/nvim/plug-config/coc.vim           " Coc
 source $HOME/.config/nvim/themes/airline.vim            " Airline
+source $HOME/.config/nvim/plug-config/coc.vim           " Coc
 source $HOME/.config/nvim/plug-config/rainbow.vim       " Rainbow
 source $HOME/.config/nvim/plug-config/start-screen.vim  " Startify
 
@@ -108,52 +110,6 @@ colorscheme dracula
 lua require'plug-colorizer'
 lua require'plug-toggleterm'
 
-" --------- Key Bindings --------- "
-" Better nav for omnicomplete
-inoremap <expr> <c-j> ("\<C-n>")
-inoremap <expr> <c-k> ("\<C-p>")
-
-" Use alt + hjkl to resize windows
-nnoremap <A-k> :resize -2<CR>
-nnoremap <A-j> :resize +2<CR>
-nnoremap <A-h> :vertical resize +2<CR>
-nnoremap <A-l> :vertical resize -2<CR>
-
-" Easy CAPS
-inoremap <c-u> <ESC>viwUi
-nnoremap <c-u> viwU<Esc>
-
-" TAB in general mode will move to text buffer
-nnoremap <TAB> :bnext<CR>
-" SHIFT-TAB will go back
-nnoremap <S-TAB> :bprevious<CR>
-
-" Alternate way to save
-nnoremap <C-s> :w<CR>
-" Alternate way to quit
-nnoremap <C-Q> :wq!<CR>
-" <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" Better tabbing
-vnoremap < <gv
-vnoremap > >gv
-
-" Better window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" move line or visually selected block - alt+j/k
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
-
-" Close current buffer without closing vim
-nnoremap <leader>q :bp<cr>:bd #<cr>
-
 " --------- NERDTree Config --------- "
 nmap <C-f> :NERDTreeToggle<CR>
 " startup
@@ -163,6 +119,14 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 
 " --------- fzf Config --------- "
 nmap <C-p> :Files<CR>
+
+" --------- Which Key Config --------- "
+" Map leader to which_key
+nnoremap <silent> <leader> :silent WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :silent <c-u> :silent WhichKeyVisual '<Space>'<CR>
+
+" Not a fan of floating windows for this
+let g:which_key_use_floating_win = 0
 
 " --------- signify Config --------- "
 let g:signify_sign_add               = '+'
@@ -176,3 +140,54 @@ let g:signify_sign_show_text = 1
 nmap <leader>gj <plug>(signify-next-hunk)
 nmap <leader>gk <plug>(signify-prev-hunk)
 
+" --------- Key Bindings --------- "
+" Better window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Use alt + hjkl to resize windows
+nnoremap <A-k> :resize -2<CR>
+nnoremap <A-j> :resize +2<CR>
+nnoremap <A-h> :vertical resize +2<CR>
+nnoremap <A-l> :vertical resize -2<CR>
+
+" TAB in general mode will move to text buffer
+nnoremap <TAB> :bnext<CR>
+" SHIFT-TAB will go back
+nnoremap <S-TAB> :bprevious<CR>
+
+" Better nav for omnicomplete
+inoremap <expr> <c-j> ("\<C-n>")
+inoremap <expr> <c-k> ("\<C-p>")
+
+" Alternate way to save
+nnoremap <C-s> :w<CR>
+" Alternate way to quit
+nnoremap <C-Q> :wq!<CR>
+" <TAB>: completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Easy CAPS
+inoremap <c-u> <ESC>viwUi
+nnoremap <c-u> viwU<Esc>
+
+" Better tabbing
+vnoremap < <gv
+vnoremap > >gv
+
+" move line or visually selected block - alt+j/k
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Close current buffer without closing vim
+nnoremap <leader>q :bp<cr>:bd #<cr>
+
+else
+" -------- VSCODE MODE ONLY ---------
+source $HOME/.config/nvim/vscode/settings.vim
+
+endif
