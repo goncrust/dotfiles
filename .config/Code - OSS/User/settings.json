@@ -89,6 +89,7 @@
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
+    "editor.autoIndent": "full",
     // VIM config
     "vim.useSystemClipboard": true
 }
