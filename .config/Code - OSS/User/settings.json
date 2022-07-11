@@ -9,7 +9,7 @@
     "workbench.colorTheme": "Material Theme Palenight High Contrast",
     "workbench.iconTheme": "material-icon-theme",
     // Fonts
-    "editor.fontSize": 15,
+    "editor.fontSize": 17,
     "editor.fontFamily": "Hack Nerd Font",
     // Terminal
     "terminal.integrated.fontFamily": "Hack Nerd Font",
@@ -676,6 +676,7 @@
         "haskell": "runhaskell",
         "nim": "nim compile --verbosity:0 --hints:off --run"
     },
+    "workbench.activityBar.visible": false,
 }
 /* ------------- Extensions ------------- */
 /*

@@ -21,21 +21,8 @@
         "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
     },
     {
-        "key": "ctrl+\\",
+        "key": "alt+\\",
         "command": "workbench.action.terminal.toggleTerminal",
-        "when": "terminal.active"
-    },
-    {
-        "key": "ctrl+\\",
-        "command": "-workbench.action.splitEditor"
-    },
-    {
-        "key": "ctrl+`",
-        "command": "workbench.action.splitEditor"
-    },
-    {
-        "key": "ctrl+`",
-        "command": "-workbench.action.terminal.toggleTerminal",
         "when": "terminal.active"
     },
     // ---------------- VSCode + NEOVim ---------------------
@@ -171,16 +158,8 @@
     },
     // Switch buffers
     {
-        "key": "tab",
-        "command": "workbench.action.nextEditor"
-    },
-    {
         "key": "ctrl+pagedown",
         "command": "-workbench.action.nextEditor"
-    },
-    {
-        "key": "shift+tab",
-        "command": "workbench.action.previousEditor"
     },
     {
         "key": "ctrl+pageup",

@@ -50,6 +50,12 @@ xnoremap <silent> <Space> :call VSCodeNotify('whichkey.show')<CR>
 nnoremap <silent> <S-k> :call VSCodeNotify('editor.action.showHover')<CR>
 xnoremap <silent> <S-k> :call VSCodeNotify('editor.action.showHover')<CR>
 
+" Switch Buffers
+nnoremap <silent> <TAB> :call VSCodeNotify('workbench.action.nextEditor')<CR>
+xnoremap <silent> <TAB> :call VSCodeNotify('workbench.action.nextEditor')<CR>
+nnoremap <silent> <S-TAB> :call VSCodeNotify('workbench.action.previousEditor')<CR>
+xnoremap <silent> <S-TAB> :call VSCodeNotify('workbench.action.previousEditor')<CR>
+
 " Better tabbing
 vnoremap < <gv
 vnoremap > >gv
@@ -59,3 +65,6 @@ autocmd FileType * set formatoptions-=cro
 
 " Use system clipboard
 set clipboard+=unnamedplus
+
+" Case insensitive search
+set ignorecase
