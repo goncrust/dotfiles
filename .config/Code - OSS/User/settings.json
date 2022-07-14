@@ -29,6 +29,7 @@
     "window.menuBarVisibility": "toggle",
     "editor.suggestSelection": "first",
     "workbench.list.automaticKeyboardNavigation": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
     // Python
     "python.pythonPath": "python",
     "python.languageServer": "Pylance",
