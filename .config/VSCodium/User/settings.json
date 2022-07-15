@@ -681,19 +681,19 @@
 }
 /* ------------- Extensions ------------- */
 /*
-code --install-extension asvetliakov.vscode-neovim
-code --install-extension CoenraadS.bracket-pair-colorizer-2
-code --install-extension eamodio.gitlens
-code --install-extension Equinusocio.vsc-material-theme
-code --install-extension equinusocio.vsc-material-theme-icons
-code --install-extension formulahendry.code-runner
-code --install-extension llvm-vs-code-extensions.vscode-clangd
-code --install-extension ms-python.python
-code --install-extension ms-toolsai.jupyter
-code --install-extension ms-toolsai.jupyter-keymap
-code --install-extension ms-toolsai.jupyter-renderers
-code --install-extension PKief.material-icon-theme
-code --install-extension redhat.java
-code --install-extension ritwickdey.LiveServer
-code --install-extension VSpaceCode.whichkey 
+codium --install-extension asvetliakov.vscode-neovim
+codium --install-extension CoenraadS.bracket-pair-colorizer-2
+codium --install-extension eamodio.gitlens
+codium --install-extension Equinusocio.vsc-material-theme
+codium --install-extension equinusocio.vsc-material-theme-icons
+codium --install-extension formulahendry.code-runner
+codium --install-extension llvm-vs-code-extensions.vscode-clangd
+codium --install-extension ms-python.python
+codium --install-extension ms-toolsai.jupyter
+codium --install-extension ms-toolsai.jupyter-keymap
+codium --install-extension ms-toolsai.jupyter-renderers
+codium --install-extension PKief.material-icon-theme
+codium --install-extension redhat.java
+codium --install-extension ritwickdey.LiveServer
+codium --install-extension VSpaceCode.whichkey
 */
