@@ -1,6 +1,6 @@
 require'toggleterm'.setup({
         size = 10,
-        open_mapping = [[<c-\>]],
+        open_mapping = [[<leader>\]],
         hide_numbers = true,
         shade_filetypes = {},
         shade_terminals = true,

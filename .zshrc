@@ -30,6 +30,8 @@ setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
 setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
 setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
 setopt EXTENDED_HISTORY  # record command start time
+bindkey -v
+bindkey '^R' history-incremental-search-backward
 
 # Basic auto/tab complete
 CASE_SENSITIVE="false"
@@ -45,7 +47,6 @@ export KEYTIMEOUT=1
 
 
 # Prefer vi shortcuts
-bindkey -v
 DEFAULT_VI_MODE=viins
 KEYTIMEOUT=1
 
@@ -119,3 +120,4 @@ RPROMPT='$(__get_vi_mode)'
 alias dev="cd /first-hdd/dev"
 alias ls="ls --color=auto"
 alias clear="clear;pfetch"
+alias grep="grep --color=auto"
