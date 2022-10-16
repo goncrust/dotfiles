@@ -100,16 +100,13 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                    }
 
 myAppGrid = [ ("Brave", "brave")
-                 , ("vim", "alacritty -e vim")
+                 , ("Apple Music", "cider")
                  , ("Steam", "steam")
-                 , ("emacs", "emacs")
+                 , ("VSCodium", "codium")
                  , ("Lutris", "lutris")
-                 , ("TorBrowser", "torbrowser-launcher")  
-                 , ("qutebrowser", "qutebrowser")  
-                 , ("Firefox", "firefox")
                  , ("Discord", "discord")
-                 , ("LibreOffice", "libreoffice")
-                 , ("GIMP", "gimp")]
+                 , ("PCManFM", "pcmanfm")
+            ]
 
 -- scratchPads
 myScratchPads :: [NamedScratchpad]
@@ -118,7 +115,7 @@ myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
                 -- C-s h
                 , NS "htop" spawnHtop findHtop manageHtop
                 -- C-s m
-                , NS "mocp" spawnMocp findMocp manageMocp
+                , NS "cider" spawnCider findCider manageCider
                 -- C-s c
                 , NS "calculator" spawnCalc findCalc manageCalc
                 ]
@@ -139,16 +136,16 @@ myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
                  w = 0.9
                  t = 0.95 -h
                  l = 0.95 -w
-    spawnMocp  = myTerminal ++ " -t mocp -e mocp -m"
-    findMocp   = title =? "mocp"
-    manageMocp = customFloating $ W.RationalRect l t w h
+    spawnCider  = "cider"
+    findCider   = className =? "Cider"
+    manageCider = customFloating $ W.RationalRect l t w h
                where
                  h = 0.9
                  w = 0.9
                  t = 0.95 -h
                  l = 0.95 -w 
-    spawnCalc  = "qalculate-gtk"
-    findCalc   = className =? "Qalculate-gtk"
+    spawnCalc  = "speedcrunch"
+    findCalc   = className =? "SpeedCrunch"
     manageCalc = customFloating $ W.RationalRect l t w h
                where
                  h = 0.5
@@ -293,13 +290,8 @@ myKeys =
     -- Scratchpads
         , ("C-s f", namedScratchpadAction myScratchPads "vifm")        -- vifm
         , ("C-s h", namedScratchpadAction myScratchPads "htop")        -- htop
-        , ("C-s m", namedScratchpadAction myScratchPads "mocp")        -- mocp
+        , ("C-s m", namedScratchpadAction myScratchPads "cider")        -- mocp
         , ("C-s c", namedScratchpadAction myScratchPads "calculator")  -- calc
-
-    -- Controls for mocp music player
-        , ("M-u l", spawn "mocp --next")
-        , ("M-u h", spawn "mocp --previous")
-        , ("M-u <Space>", spawn "mocp --toggle-pause")
 
     -- Windows navigation
         , ("M-j", windows W.focusDown)    -- focus to next window
@@ -320,13 +312,7 @@ myKeys =
         , ("M-M1-k", sendMessage MirrorExpand)          -- expand vert
 
     -- Multimedia Keys
-        , ("<XF86AudioPlay>", spawn (myTerminal ++ "mocp --play"))
-        , ("<XF86AudioPrev>", spawn (myTerminal ++ "mocp --previous"))
-        , ("<XF86AudioNext>", spawn (myTerminal ++ "mocp --next"))
-        , ("<XF86AudioMute>", spawn "amixer set Master toggle")
-        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
-        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
-        , ("<Print>", spawn "escrotum -d 0 $HOME/Pictures/Screenshots/%Y-%m-%d-%T-screenshot.png")
+        , ("<Print>", spawn "flameshot gui")
         ]
 
     -- The following lines are needed for named scratchpads.
