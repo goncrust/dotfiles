@@ -106,6 +106,7 @@ myAppGrid = [ ("Brave", "brave")
                  , ("Lutris", "lutris")
                  , ("Discord", "discord")
                  , ("PCManFM", "pcmanfm")
+                 , ("Thunderbird", "thunderbird")
             ]
 
 -- scratchPads
@@ -241,7 +242,6 @@ myManageHook = composeAll
      , className =? "notification"    --> doFloat
      , className =? "splash"          --> doFloat
      , className =? "toolbar"         --> doFloat
-     , className =? "firefox"         --> doFloat
      , className =? "Tor Browser"     --> doFloat
      , isFullscreen -->  doFullFloat
      ] <+> namedScratchpadManageHook myScratchPads
