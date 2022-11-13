@@ -118,8 +118,10 @@ RPROMPT='$(__get_vi_mode)'
 
 # aliases
 alias dev="cd /first-hdd/dev"
-alias ls="ls --color=auto"
-alias clear="clear;pfetch"
+#alias ls="ls --color=auto"
+alias ls="exa --color always --icons"
+alias cd='f() { cd $1 ; ls -a };f'
+alias clear="clear;pfetch;ls -a"
 alias grep="grep --color=auto"
 alias video="mpv &"
 alias img="nomacs &"
