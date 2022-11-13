@@ -127,9 +127,9 @@ alias cd='f() { cd $1 ; ls -a };f'
 alias clear="clear;pfetch;ls -a"
 alias vim="nvim"
 alias grep="grep --color=auto"
-alias video="mpv &"
-alias img="nomacs &"
-alias pdf="zathura &"
+alias video='f() { mpv $1 & disown };f'
+alias img='f() { nomacs $1 & disown };f'
+alias pdf='f() { zathura $1 & disown };f'
 alias rss="newsboat &"
-alias prtsc="flameshot gui &"
-alias email="thunderbird &"
+alias prtsc="flameshot gui & disown"
+alias email="thunderbird & disown"
