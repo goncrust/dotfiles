@@ -120,6 +120,9 @@ RPROMPT='$(__get_vi_mode)'
 alias dev="cd /first-hdd/dev"
 #alias ls="ls --color=auto"
 alias ls="exa --header --color always --icons --git"
+alias lst="ls --tree"
+alias lst2="ls --tree --level=2"
+alias lst3="ls --tree --level=3"
 alias cd='f() { cd $1 ; ls -a };f'
 alias clear="clear;pfetch;ls -a"
 alias vim="nvim"
