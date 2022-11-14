@@ -118,6 +118,7 @@ RPROMPT='$(__get_vi_mode)'
 
 # aliases
 alias dev="cd /first-hdd/dev"
+alias nas="cd /mnt/goncrust-nas"
 #alias ls="ls --color=auto"
 alias ls="exa --header --color always --icons --git"
 alias lst="ls --tree"
