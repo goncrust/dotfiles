@@ -1,0 +1,17 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda3
+UUID=aff8f581-f04b-41dc-8af2-d5c636956c61	/         	ext4      	rw,relatime	0 1
+
+# /dev/sdb1
+UUID=a9c65e9a-3dab-42ac-b304-bb54ec7983a0	/first-hdd	ext4      	rw,relatime	0 2
+
+# /dev/sda2
+UUID=7d6bdbb5-db2e-4695-b040-e1f4f16aec74	none      	swap      	defaults  	0 0
+
+# nas
+//192.168.1.2/main-storage	/mnt/goncrust-nas/main-storage	cifs	credentials=/home/goncrust/.nascredentials,uid=1000,gid=1000	0 0
+
+//192.168.1.2/sharedfls		/mnt/goncrust-nas/sharedfls	cifs	credentials=/home/goncrust/.nascredentials,uid=1000,gid=1000	0 0
