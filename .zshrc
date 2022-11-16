@@ -115,6 +115,7 @@ setopt PROMPT_SUBST
 # in the variable
 RPROMPT='$(__get_vi_mode)'
 
+f() {}
 
 # aliases
 alias dev="cd /first-hdd/dev"
