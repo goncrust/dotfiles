@@ -135,3 +135,4 @@ alias pdf='f() { zathura $1 & disown };f'
 alias rss="newsboat &"
 alias prtsc="flameshot gui & disown"
 alias email="thunderbird & disown"
+alias md="glow"
