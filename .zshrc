@@ -118,10 +118,10 @@ RPROMPT='$(__get_vi_mode)'
 f() {}
 
 # aliases
-alias dev="cd /first-hdd/dev"
+alias dev="cd /home/goncrust/Documents/dev"
 alias nas="cd /mnt/goncrust-nas"
 #alias ls="ls --color=auto"
-alias ls="exa --header --color always --icons --git"
+alias ls="exa --header --color always --icons --git --group"
 alias lst="ls --tree"
 alias lst2="ls --tree --level=2"
 alias lst3="ls --tree --level=3"
@@ -136,3 +136,8 @@ alias rss="newsboat &"
 alias prtsc="flameshot gui & disown"
 alias email="thunderbird & disown"
 alias md="glow"
+
+# asahi (add user to video group)
+alias backlight="light -s sysfs/leds/kbd_backlight -S"
+alias brightness="light -s sysfs/backlight/apple-panel-bl -S"
+alias volume="amixer sset Master"
