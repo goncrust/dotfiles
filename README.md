@@ -16,11 +16,11 @@ The config files I use in my machines.
 
 ## Screenshots
 
-### [XMonad] Arch
+### [XMonad] Desktop (Arch)
 
 <img src="arch-screenshot-1.png" alt="arch">
 <img src="arch-screenshot-0.png" alt="arch">
 
-### [DWM] Asahi
+### [DWM] T480 (Arch) and MBP (Asahi)
 
 <img src="asahi-screenshot.png" alt="asahi">
