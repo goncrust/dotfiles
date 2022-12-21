@@ -112,7 +112,7 @@ myAppGrid = [ ("Brave", "brave")
 -- scratchPads
 myScratchPads :: [NamedScratchpad]
                 -- C-s f
-myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
+myScratchPads = [ NS "ranger" spawnRanger findRanger manageRanger
                 -- C-s h
                 , NS "htop" spawnHtop findHtop manageHtop
                 -- C-s m
@@ -121,9 +121,9 @@ myScratchPads = [ NS "vifm" spawnVifm findVifm manageVifm
                 , NS "calculator" spawnCalc findCalc manageCalc
                 ]
   where
-    spawnVifm  = myTerminal ++ " -t vifm -e $HOME/.config/vifm/scripts/vifmrun"
-    findVifm   = title =? "vifm"
-    manageVifm = customFloating $ W.RationalRect l t w h
+    spawnRanger  = myTerminal ++ " -t ranger -e ranger"
+    findRanger   = title =? "ranger"
+    manageRanger = customFloating $ W.RationalRect l t w h
                where
                  h = 0.9
                  w = 0.9
@@ -288,7 +288,7 @@ myKeys =
         , ("C-g b", bringSelected $ mygridConfig myColorizer) -- bring window
 
     -- Scratchpads
-        , ("C-s f", namedScratchpadAction myScratchPads "vifm")        -- vifm
+        , ("C-s f", namedScratchpadAction myScratchPads "ranger")        -- ranger
         , ("C-s h", namedScratchpadAction myScratchPads "htop")        -- htop
         , ("C-s m", namedScratchpadAction myScratchPads "cider")        -- mocp
         , ("C-s c", namedScratchpadAction myScratchPads "calculator")  -- calc
