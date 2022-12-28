@@ -8,6 +8,7 @@ call plug#begin()
  Plug 'akinsho/toggleterm.nvim'                     " Terminal
  Plug 'jiangmiao/auto-pairs'                        " Auto pairs
  Plug 'dracula/vim'                                 " Theme
+ Plug 'EdenEast/nightfox.nvim'                      " Theme
  Plug 'preservim/nerdcommenter'                     " Comments
  Plug 'mhinz/vim-startify'                          " Startify
  Plug 'neoclide/coc.nvim', {'branch': 'release'}    " Intellisense
@@ -104,7 +105,7 @@ if (has("termguicolors"))
  set termguicolors
 endif
 syntax enable
-colorscheme dracula
+colorscheme carbonfox
 
 " --------- lua Config Files --------- "
 lua require'plug-colorizer'
