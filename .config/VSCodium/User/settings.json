@@ -696,4 +696,14 @@ codium --install-extension PKief.material-icon-theme
 codium --install-extension redhat.java
 codium --install-extension ritwickdey.LiveServer
 codium --install-extension VSpaceCode.whichkey
+codium --install-extension Gruntfuggly.todo-tree
+codium --install-extension mcagampan.dark-horizon
+codium --install-extension slevesque.shader
+codium --install-extension VisualStudioExptTeam.intellicode-api-usage-examples
+codium --install-extension VisualStudioExptTeam.vscodeintellicode
+codium --install-extension vscjava.vscode-java-debug
+codium --install-extension vscjava.vscode-java-dependency
+codium --install-extension vscjava.vscode-java-pack
+codium --install-extension vscjava.vscode-java-test
+codium --install-extension vscjava.vscode-maven
 */
