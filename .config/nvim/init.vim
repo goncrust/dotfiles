@@ -6,7 +6,7 @@ call plug#begin()
  Plug 'sheerun/vim-polyglot'                        " Better syntax support
  Plug 'scrooloose/nerdtree'                         " File explorer
  Plug 'akinsho/toggleterm.nvim'                     " Terminal
- Plug 'jiangmiao/auto-pairs'                        " Auto pairs
+" Plug 'jiangmiao/auto-pairs'                       " Auto pairs - not using because it messes up coc (enter doesnt select suggestion), using coc-pairs instead
  Plug 'dracula/vim'                                 " Theme
  Plug 'EdenEast/nightfox.nvim'                      " Theme
  Plug 'preservim/nerdcommenter'                     " Comments
@@ -20,6 +20,7 @@ call plug#begin()
     " coc-json
     " coc-clangd
     " coc-java
+    " coc-pairs
  " Plug 'honza/vim-snippets'                        " Snippets
  Plug 'vim-airline/vim-airline'                     " Airline
  " Plug 'vim-airline/vim-airline-themes'            " Airline themes
