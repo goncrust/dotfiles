@@ -199,9 +199,9 @@ main(void)
 
 	for (;;sleep(5)) {
 		avgs = cpuload();
-		bat = getbattery("/sys/class/power_supply/macsmc-battery");
+		bat = getbattery("/sys/class/power_supply/BAT1");
 		thour = mktimes("%d %b %Y - %H:%M", tzlondon);
-		t0 = gettemperature("/sys/devices/virtual/thermal/thermal_zone0/hwmon2", "temp1_input");
+		t0 = gettemperature("/sys/devices/virtual/thermal/thermal_zone0/hwmon1", "temp1_input");
 
 		status = smprintf(" | %s | %s | %s | %s ",
 				t0, avgs, bat, thour);
