@@ -4,16 +4,17 @@
  */
 
 #define _BSD_SOURCE
-#include <unistd.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
 #include <strings.h>
+#include <sys/sysinfo.h>
 #include <sys/time.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <time.h>
+#include <unistd.h>
 
 #include <X11/Xlib.h>
 
@@ -21,201 +22,184 @@ char *tzlondon = "Europe/London";
 
 static Display *dpy;
 
-char *
-smprintf(char *fmt, ...)
-{
-	va_list fmtargs;
-	char *ret;
-	int len;
-
-	va_start(fmtargs, fmt);
-	len = vsnprintf(NULL, 0, fmt, fmtargs);
-	va_end(fmtargs);
-
-	ret = malloc(++len);
-	if (ret == NULL) {
-		perror("malloc");
-		exit(1);
-	}
-
-	va_start(fmtargs, fmt);
-	vsnprintf(ret, len, fmt, fmtargs);
-	va_end(fmtargs);
-
-	return ret;
+void setstatus(char *str) {
+    XStoreName(dpy, DefaultRootWindow(dpy), str);
+    XSync(dpy, False);
 }
 
-void
-settz(char *tzname)
-{
-	setenv("TZ", tzname, 1);
-}
+char *smprintf(char *fmt, ...) {
+    va_list fmtargs;
+    char *ret;
+    int len;
 
-char *
-mktimes(char *fmt, char *tzname)
-{
-	char buf[129];
-	time_t tim;
-	struct tm *timtm;
+    va_start(fmtargs, fmt);
+    len = vsnprintf(NULL, 0, fmt, fmtargs);
+    va_end(fmtargs);
 
-	settz(tzname);
-	tim = time(NULL);
-	timtm = localtime(&tim);
-	if (timtm == NULL)
-		return smprintf("");
-
-	if (!strftime(buf, sizeof(buf)-1, fmt, timtm)) {
-		fprintf(stderr, "strftime == 0\n");
-		return smprintf("");
-	}
-
-	return smprintf("%s", buf);
-}
-
-void
-setstatus(char *str)
-{
-	XStoreName(dpy, DefaultRootWindow(dpy), str);
-	XSync(dpy, False);
-}
-
-
-long double cpu_curr[] = {0, 0, 0, 0};
-long double cpu_last[] = {0, 0, 0, 0};
-char *cpuload(void)
-{
-
-    FILE *fp;
-    float load;
-    long double cpu_last_sum, cpu_curr_sum;
-    int i;
-
-    fp = fopen("/proc/stat", "r");
-
-    /* read current values */
-    fscanf(fp,"%*s %Lf %Lf %Lf %Lf", &cpu_curr[0], &cpu_curr[1], &cpu_curr[2], &cpu_curr[3]);
-    fclose(fp);
-
-    cpu_last_sum = cpu_last[0]+cpu_last[1]+cpu_last[2];
-    cpu_curr_sum = cpu_curr[0]+cpu_curr[1]+cpu_curr[2];
-
-    if (cpu_last_sum == 0)
-        load = 0;
-    else
-        load = ((cpu_last_sum) - (cpu_curr_sum))
-            / ((cpu_last_sum+cpu_last[3]) - (cpu_curr_sum+cpu_curr[3]));
-
-    /* update last values */
-    for (i = 0; i < 4; i++) {
-        cpu_last[i] = cpu_curr[i];
+    ret = malloc(++len);
+    if (ret == NULL) {
+        perror("malloc");
+        exit(1);
     }
 
-    if (load <= 0) {
-        return smprintf("0%%");
-    }
-	return smprintf("%.0f%%", load*100);
+    va_start(fmtargs, fmt);
+    vsnprintf(ret, len, fmt, fmtargs);
+    va_end(fmtargs);
+
+    return ret;
 }
 
-char *
-readfile(char *base, char *file)
-{
-	char *path, line[513];
-	FILE *fd;
+void settz(char *tzname) { setenv("TZ", tzname, 1); }
 
-	memset(line, 0, sizeof(line));
+char *mktimes(char *fmt, char *tzname) {
+    char buf[129];
+    time_t tim;
+    struct tm *timtm;
 
-	path = smprintf("%s/%s", base, file);
-	fd = fopen(path, "r");
-	free(path);
-	if (fd == NULL)
-		return NULL;
-
-	if (fgets(line, sizeof(line)-1, fd) == NULL)
-		return NULL;
-	fclose(fd);
-
-	return smprintf("%s", line);
-}
-
-char *
-getbattery(char *base)
-{
-	char *co, status[16];
-	int cap;
-
-	co = readfile(base, "present");
-	if (co == NULL)
-		return smprintf("");
-	if (co[0] != '1') {
-		free(co);
-		return smprintf("not present");
-	}
-	free(co);
-
-	co = readfile(base, "capacity");
-	if (co == NULL) {
+    settz(tzname);
+    tim = time(NULL);
+    timtm = localtime(&tim);
+    if (timtm == NULL)
         return smprintf("");
-	}
-	sscanf(co, "%d", &cap);
-	free(co);
 
-	co = readfile(base, "status");
-	if (!strncmp(co, "Discharging", 11)) {
-		strncpy(status, " (Not Charging)\0", 16);
-	} else if(!strncmp(co, "Charging", 8)) {
-		strncpy(status, " (Charging)\0", 12);
-	} else {
-		strncpy(status, " (?)\0", 5);
-	}
-    free(co);
+    if (!strftime(buf, sizeof(buf) - 1, fmt, timtm)) {
+        fprintf(stderr, "strftime == 0\n");
+        return smprintf("");
+    }
 
-	return smprintf("%d%%%s", cap, status);
+    return smprintf("%s", buf);
 }
 
-char *
-gettemperature(char *base, char *sensor)
-{
-	char *co;
+int parse_netdev(unsigned long long int *receivedabs,
+                 unsigned long long int *sentabs) {
+    char buf[255];
+    char *datastart;
+    static int bufsize;
+    int rval;
+    FILE *devfd;
+    unsigned long long int receivedacc, sentacc;
 
-	co = readfile(base, sensor);
-	if (co == NULL)
-		return smprintf("");
-	return smprintf("%02.0f°C", atof(co) / 1000);
+    bufsize = 255;
+    devfd = fopen("/proc/net/dev", "r");
+    rval = 1;
+
+    // Ignore the first three lines of the file
+    fgets(buf, bufsize, devfd);
+    fgets(buf, bufsize, devfd);
+
+    while (fgets(buf, bufsize, devfd)) {
+        if ((datastart = strstr(buf, "lo:")) == NULL) {
+            datastart = strstr(buf, ":");
+
+            // With thanks to the conky project at http://conky.sourceforge.net/
+            sscanf(
+                datastart + 1,
+                "%llu  %*d     %*d  %*d  %*d  %*d   %*d        %*d       %llu",
+                &receivedacc, &sentacc);
+            *receivedabs += receivedacc;
+            *sentabs += sentacc;
+            rval = 0;
+        }
+    }
+
+    fclose(devfd);
+    return rval;
 }
 
-int
-main(void)
-{
-	char *status;
-	char *avgs;
-	char *bat;
-	char *thour;
-	char *t0;
+char *get_netusage(unsigned long long int *rec, unsigned long long int *sent) {
+    unsigned long long int newrec = 0, newsent = 0;
+    int retval;
+    double downspeed, upspeed;
 
-	if (!(dpy = XOpenDisplay(NULL))) {
-		fprintf(stderr, "dwmstatus: cannot open display.\n");
-		return 1;
-	}
+    retval = parse_netdev(&newrec, &newsent);
+    if (retval) {
+        return smprintf("error");
+    }
 
-	for (;;sleep(5)) {
-		avgs = cpuload();
-		bat = getbattery("/sys/class/power_supply/BAT1");
-		thour = mktimes("%d %b %Y - %H:%M", tzlondon);
-		t0 = gettemperature("/sys/devices/virtual/thermal/thermal_zone0/hwmon1", "temp1_input");
+    downspeed = (newrec - *rec) / (1024.0 * 1024.0);
+    upspeed = (newsent - *sent) / (1024.0 * 1024.0);
 
-		status = smprintf(" | %s | %s | %s | %s ",
-				t0, avgs, bat, thour);
-		setstatus(status);
-
-		free(t0);
-		free(avgs);
-		free(bat);
-		free(thour);
-		free(status);
-	}
-
-	XCloseDisplay(dpy);
-
-	return 0;
+    *rec = newrec;
+    *sent = newsent;
+    return smprintf("down: %.2fMB/s up: %.2fMB/s", downspeed, upspeed);
 }
 
+char *readfile(char *base, char *file) {
+    char *path, line[513];
+    FILE *fd;
+
+    memset(line, 0, sizeof(line));
+
+    path = smprintf("%s/%s", base, file);
+    fd = fopen(path, "r");
+    free(path);
+    if (fd == NULL)
+        return NULL;
+
+    if (fgets(line, sizeof(line) - 1, fd) == NULL)
+        return NULL;
+    fclose(fd);
+
+    return smprintf("%s", line);
+}
+
+char *get_temp(char *base, char *sensor) {
+    char *co;
+
+    co = readfile(base, sensor);
+    if (co == NULL)
+        return smprintf("");
+    return smprintf("%02.0f°C", atof(co) / 1000);
+}
+
+char *get_memory() {
+    struct sysinfo info;
+
+    if (sysinfo(&info) == -1)
+        return smprintf("Error");
+    return smprintf("%dMB/%dMB", (info.totalram - info.freeram) / (1024 * 1024),
+                    info.totalram / (1024 * 1024));
+}
+
+char *get_cpuload(void) {
+    double avgs[3];
+
+    if (getloadavg(avgs, 3) < 0) {
+        return smprintf("error");
+    }
+    return smprintf("%.2f%%", avgs[0]);
+}
+
+int main(void) {
+    char *status, *cpu, *time, *temp, *network, *memory;
+    unsigned long long rec = 0, sent = 0;
+
+    if (!(dpy = XOpenDisplay(NULL))) {
+        fprintf(stderr, "dwmstatus: cannot open display.\n");
+        return 1;
+    }
+
+    for (;; sleep(2)) {
+        cpu = get_cpuload();
+        time = mktimes("%d %b %Y - %H:%M", tzlondon);
+        temp = get_temp("/sys/devices/virtual/thermal/thermal_zone0/hwmon0",
+                        "temp1_input");
+        network = get_netusage(&rec, &sent);
+        memory = get_memory();
+
+        status = smprintf(" | N %s | T %s | Mem %s | CPU %s | %s |", network,
+                          temp, memory, cpu, time);
+        setstatus(status);
+
+        free(temp);
+        free(cpu);
+        free(time);
+        free(status);
+        free(memory);
+        free(network);
+    }
+
+    XCloseDisplay(dpy);
+
+    return 0;
+}
