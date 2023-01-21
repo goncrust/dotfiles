@@ -121,7 +121,7 @@ char *get_netusage(unsigned long long int *rec, unsigned long long int *sent) {
 
     *rec = newrec;
     *sent = newsent;
-    return smprintf("down: %.2fMB/s up: %.2fMB/s", downspeed, upspeed);
+    return smprintf("↓ %.2fMB/s ↑ %.2fMB/s", downspeed, upspeed);
 }
 
 char *readfile(char *base, char *file) {
@@ -187,8 +187,8 @@ int main(void) {
         network = get_netusage(&rec, &sent);
         memory = get_memory();
 
-        status = smprintf(" | N %s | T %s | Mem %s | CPU %s | %s |", network,
-                          temp, memory, cpu, time);
+        status = smprintf(" | %s | %s | %s | %s | %s |", network, memory, temp,
+                          cpu, time);
         setstatus(status);
 
         free(temp);
