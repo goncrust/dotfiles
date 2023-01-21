@@ -121,7 +121,7 @@ char *get_netusage(unsigned long long int *rec, unsigned long long int *sent) {
 
     *rec = newrec;
     *sent = newsent;
-    return smprintf("down: %.2fMB/s up: %.2fMB/s", downspeed, upspeed);
+    return smprintf("↓ %.2fMB/s ↑ %.2fMB/s", downspeed, upspeed);
 }
 
 char *readfile(char *base, char *file) {
@@ -170,8 +170,41 @@ char *get_cpuload(void) {
     return smprintf("%.2f%%", avgs[0]);
 }
 
+char *get_battery(char *base) {
+    char *co, status[16];
+    int cap;
+
+    co = readfile(base, "present");
+    if (co == NULL)
+        return smprintf("");
+    if (co[0] != '1') {
+        free(co);
+        return smprintf("not present");
+    }
+    free(co);
+
+    co = readfile(base, "capacity");
+    if (co == NULL) {
+        return smprintf("");
+    }
+    sscanf(co, "%d", &cap);
+    free(co);
+
+    co = readfile(base, "status");
+    if (!strncmp(co, "Discharging", 11)) {
+        strncpy(status, " (Discharging)\0", 16);
+    } else if (!strncmp(co, "Charging", 8)) {
+        strncpy(status, " (Charging)\0", 12);
+    } else {
+        strncpy(status, " (?)\0", 5);
+    }
+    free(co);
+
+    return smprintf("%d%%%s", cap, status);
+}
+
 int main(void) {
-    char *status, *cpu, *time, *temp, *network, *memory;
+    char *status, *cpu, *time, *temp, *network, *memory, *bat;
     unsigned long long rec = 0, sent = 0;
 
     if (!(dpy = XOpenDisplay(NULL))) {
@@ -182,13 +215,14 @@ int main(void) {
     for (;; sleep(2)) {
         cpu = get_cpuload();
         time = mktimes("%d %b %Y - %H:%M", tzlondon);
-        temp = get_temp("/sys/devices/virtual/thermal/thermal_zone0/hwmon0",
+        temp = get_temp("/sys/devices/virtual/thermal/thermal_zone0/hwmon1",
                         "temp1_input");
         network = get_netusage(&rec, &sent);
         memory = get_memory();
+        bat = get_battery("/sys/class/power_supply/BAT1");
 
-        status = smprintf(" | N %s | T %s | Mem %s | CPU %s | %s |", network,
-                          temp, memory, cpu, time);
+        status = smprintf(" | %s | %s | %s | %s | %s | %s |", network, temp,
+                          memory, cpu, bat, time);
         setstatus(status);
 
         free(temp);
@@ -197,6 +231,7 @@ int main(void) {
         free(status);
         free(memory);
         free(network);
+        free(bat);
     }
 
     XCloseDisplay(dpy);
