@@ -171,7 +171,7 @@ char *get_cpuload(void) {
 }
 
 char *get_battery(char *base) {
-    char *co, status[16];
+    char *co, status[15];
     int cap;
 
     co = readfile(base, "present");
@@ -192,9 +192,11 @@ char *get_battery(char *base) {
 
     co = readfile(base, "status");
     if (!strncmp(co, "Discharging", 11)) {
-        strncpy(status, " (Discharging)\0", 16);
+        strncpy(status, " (Discharging)\0", 15);
     } else if (!strncmp(co, "Charging", 8)) {
         strncpy(status, " (Charging)\0", 12);
+    } else if (!strncmp(co, "Full", 4)) {
+        strncpy(status, " (Full)\0", 8);
     } else {
         strncpy(status, " (?)\0", 5);
     }
