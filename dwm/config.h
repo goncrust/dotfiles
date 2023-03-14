@@ -39,8 +39,11 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
      */
     /* class      instance    title       tags mask     isfloating   monitor */
-    {"Gimp", NULL, NULL, 0, 1, -1},
+    // {"Gimp", NULL, NULL, 0, 1, -1},
     // { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    {NULL, NULL, "stfloat", 0, 1, -1},
+    {"Cider", NULL, NULL, 0, 1, -1},
+    {"SpeedCrunch", NULL, NULL, 0, 1, -1},
 };
 
 /* layout(s) */
@@ -79,9 +82,15 @@ static const char *dmenucmd[] = {
     "dmenu_run", "-m",      dmenumon, "-fn",    dmenufont, "-nb",     col_gray1,
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 static const char *termcmd[] = {"st", "zsh", NULL};
+static const char *rangercmd[] = {"st", "-T", "stfloat", "ranger", NULL};
+static const char *cidercmd[] = {"cider", NULL};
+static const char *speedcrunchcmd[] = {"speedcrunch", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
+    {MODKEY | ControlMask, XK_m, spawn, {.v = cidercmd}},
+    {MODKEY | ControlMask, XK_f, spawn, {.v = rangercmd}},
+    {MODKEY | ControlMask, XK_c, spawn, {.v = speedcrunchcmd}},
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_b, togglebar, {0}},
