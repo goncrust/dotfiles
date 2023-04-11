@@ -153,21 +153,54 @@ char *get_temp(char *base, char *sensor) {
 }
 
 char *get_memory() {
-    struct sysinfo info;
+    int total, free, buffers, cached;
+    FILE *f;
 
-    if (sysinfo(&info) == -1)
-        return smprintf("Error");
-    return smprintf("%dMB/%dMB", (info.totalram - info.freeram) / (1024 * 1024),
-                    info.totalram / (1024 * 1024));
+    f = fopen("/proc/meminfo", "r");
+
+    if (f == NULL) {
+        perror("fopen");
+        exit(1);
+    }
+
+    fscanf(f,
+           "%*s %d %*s"  // mem total
+           "%*s %d %*s"  // mem free
+           "%*s %*d %*s" // mem available
+           "%*s %d %*s"  // buffers
+           "%*s %d",     // cached
+           &total, &free, &buffers, &cached);
+    fclose(f);
+
+    return smprintf("%ldMB/%ldMB", (total - free - buffers - cached) / 1000,
+                    total / 1000);
 }
 
-char *get_cpuload(void) {
-    double avgs[3];
+struct cpu_usage {
+    long int total, used;
+};
 
-    if (getloadavg(avgs, 3) < 0) {
-        return smprintf("error");
+struct cpu_usage get_cpuload() {
+    long int user, nice, system, idle, iowait, irq, softirq;
+    struct cpu_usage usage;
+
+    FILE *f;
+    f = fopen("/proc/stat", "r");
+
+    if (f == NULL) {
+        perror("fopen");
+        exit(1);
     }
-    return smprintf("%.2f%%", avgs[0]);
+
+    fscanf(f, "%*s %ld %ld %ld %ld %ld %ld %ld", &user, &nice, &system, &idle,
+           &iowait, &irq, &softirq);
+
+    usage.used = user + nice + system + irq + softirq;
+    usage.total = user + nice + system + idle + iowait + irq + softirq;
+
+    fclose(f);
+
+    return usage;
 }
 
 char *get_battery(char *base) {
@@ -207,6 +240,11 @@ char *get_battery(char *base) {
 
 int main(void) {
     char *status, *cpu, *time, *temp, *network, *memory, *bat;
+
+    struct cpu_usage cpu_i_usage = get_cpuload();
+    struct cpu_usage cpu_f_usage;
+    double cpu_used, cpu_total;
+
     unsigned long long rec = 0, sent = 0;
 
     if (!(dpy = XOpenDisplay(NULL))) {
@@ -215,7 +253,11 @@ int main(void) {
     }
 
     for (;; sleep(2)) {
-        cpu = get_cpuload();
+        cpu_f_usage = get_cpuload();
+        cpu_used = cpu_f_usage.used - cpu_i_usage.used;
+        cpu_total = cpu_f_usage.total - cpu_i_usage.total;
+        cpu = smprintf("%.2f%%", (cpu_used / cpu_total) * 100);
+
         time = mktimes("%d %b %Y - %H:%M", tzlondon);
         temp = get_temp("/sys/devices/virtual/thermal/thermal_zone0/hwmon1",
                         "temp1_input");
@@ -234,6 +276,7 @@ int main(void) {
         free(memory);
         free(network);
         free(bat);
+        cpu_i_usage = cpu_f_usage;
     }
 
     XCloseDisplay(dpy);
