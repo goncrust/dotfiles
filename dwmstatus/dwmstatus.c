@@ -224,7 +224,7 @@ int main(void) {
         cpu = smprintf("%.2f%%", (cpu_used / cpu_total) * 100);
 
         time = mktimes("%d %b %Y - %H:%M", tzlondon);
-        temp = get_temp("/sys/devices/virtual/thermal/thermal_zone2", "temp");
+        temp = get_temp("/sys/devices/virtual/thermal/thermal_zone1", "temp");
         network = get_netusage(&rec, &sent);
         memory = get_memory();
 

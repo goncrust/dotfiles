@@ -17,8 +17,8 @@ static const int systraypinningfailfirst =
     1; /* 1: if pinning fails, display systray on the first monitor, False:
           display systray on the last monitor*/
 static const int showsystray = 1; /* 0 means no systray */
-static const char *fonts[] = {"monospace:size=10"};
-static const char dmenufont[] = "monospace:size=10";
+static const char *fonts[] = {"monospace:size=9"};
+static const char dmenufont[] = "monospace:size=9";
 static const char col_gray1[] = "#171717";
 static const char col_gray2[] = "#171717";
 static const char col_gray3[] = "#e2e5e9";
@@ -64,16 +64,16 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY, TAG)                                                      \
-    {MODKEY, KEY, view, {.ui = 1 << TAG}},                                     \
-        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},             \
-        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                      \
-        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+  {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
+      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
+      {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
+      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
-    {                                                                          \
-        .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                   \
-    }
+  {                                                                            \
+    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
+  }
 
 /* commands */
 static char dmenumon[2] =
