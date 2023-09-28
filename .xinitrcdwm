@@ -52,12 +52,12 @@ nitrogen --restore &
 xrandr --output DP-2 --primary --mode 1920x1080 --rate 144.00 --output DP-3 --mode 1920x1080 --rotate left --rate 74.92 --left-of DP-2
 setxkbmap -layout pt
 setxkbmap -option caps:escape
+xbindkeys &
 xinput set-float-prop 'BenQ ZOWIE BenQ ZOWIE Gaming Mouse' 'libinput Accel Speed' -0.7
 xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 24
 xset r rate 300 50
 xset -dpms
 xset s 0 0
 redshift-gtk -l 51.5045300:-0.1257400 &
-xbindkeys &
 dwmstatus 2>&1 >/dev/null &
 exec dwm
