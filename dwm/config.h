@@ -64,16 +64,16 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY, TAG)                                                      \
-  {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
-      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
-      {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
-      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+    {MODKEY, KEY, view, {.ui = 1 << TAG}},                                     \
+        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},             \
+        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                      \
+        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
-  {                                                                            \
-    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
-  }
+    {                                                                          \
+        .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                   \
+    }
 
 /* commands */
 static char dmenumon[2] =
@@ -85,12 +85,14 @@ static const char *termcmd[] = {"st", "zsh", NULL};
 static const char *rangercmd[] = {"st", "-T", "stfloat", "ranger", NULL};
 static const char *cidercmd[] = {"cider", NULL};
 static const char *speedcrunchcmd[] = {"speedcrunch", NULL};
+static const char *prtsccmd[] = {"flameshot", "gui", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY | ControlMask, XK_m, spawn, {.v = cidercmd}},
     {MODKEY | ControlMask, XK_f, spawn, {.v = rangercmd}},
     {MODKEY | ControlMask, XK_c, spawn, {.v = speedcrunchcmd}},
+    {0, XK_Print, spawn, {.v = prtsccmd}},
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_b, togglebar, {0}},

@@ -682,7 +682,6 @@
 /* ------------- Extensions ------------- */
 /*
 codium --install-extension asvetliakov.vscode-neovim;
-codium --install-extension CoenraadS.bracket-pair-colorizer-2;
 codium --install-extension eamodio.gitlens;
 codium --install-extension Equinusocio.vsc-material-theme;
 codium --install-extension equinusocio.vsc-material-theme-icons;
