@@ -18,4 +18,10 @@ return require('packer').startup(function(use)
 
   use("vim-airline/vim-airline")
   use("vim-airline/vim-airline-themes")
+
+  use {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig"
+  }
 end)

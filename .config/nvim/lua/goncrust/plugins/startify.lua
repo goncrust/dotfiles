@@ -11,11 +11,10 @@ vim.g.startify_lists = {
 
 -- Startify bookmarks
 vim.g.startify_bookmarks = {
-  { c = '~/.xmonad/xmonad.hs' },
-  { n = '~/.config/nvim/init.vim' },
+  { n = '~/.config/nvim' },
   { z = '~/.zshrc' },
-  '/first-hdd/dev',
-  '/first-hdd/dev/SchoolProjects',
+  { d = '/home/goncrust/Documents/dev' },
+  { s = '/home/goncrust/Documents/School' },
 }
 
 -- Use Unicode in Startify fortune

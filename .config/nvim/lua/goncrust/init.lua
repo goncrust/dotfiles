@@ -7,12 +7,13 @@ require("goncrust.plugins.treesitter")
 require("goncrust.plugins.nvim-tree")
 require("goncrust.plugins.startify")
 vim.cmd("source $HOME/.config/nvim/lua/goncrust/plugins/airline.vim")
+require("goncrust.plugins.lsp-config")
 
 -- other config
 vim.opt.hidden = true                              -- Required to keep multiple buffers open
 vim.opt.wrap = false                               -- Display long lines as one line
 vim.opt.encoding = 'utf-8'                         -- The encoding displayed
-vim.opt.pumheight = 9                             -- Popup menu height
+vim.opt.pumheight = 9                              -- Popup menu height
 vim.opt.fileencoding = 'utf-8'                     -- The encoding written to a file
 vim.opt.ruler = true                               -- Show the cursor position all the time
 vim.opt.cmdheight = 2                              -- More space for displaying messages
