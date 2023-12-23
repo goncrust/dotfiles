@@ -225,11 +225,11 @@ char *get_battery(char *base) {
 
     co = readfile(base, "status");
     if (!strncmp(co, "Discharging", 11)) {
-        strncpy(status, " (Discharging)\0", 15);
+        strncpy(status, "\0", 1);
     } else if (!strncmp(co, "Charging", 8)) {
         strncpy(status, " (Charging)\0", 12);
     } else if (!strncmp(co, "Full", 4)) {
-        strncpy(status, " (Full)\0", 8);
+        strncpy(status, "\0", 1);
     } else {
         strncpy(status, " (?)\0", 5);
     }
@@ -252,7 +252,7 @@ int main(void) {
         return 1;
     }
 
-    for (;; sleep(2)) {
+    for (;; sleep(5)) {
         cpu_f_usage = get_cpuload();
         cpu_used = cpu_f_usage.used - cpu_i_usage.used;
         cpu_total = cpu_f_usage.total - cpu_i_usage.total;

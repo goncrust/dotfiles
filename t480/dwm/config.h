@@ -24,6 +24,7 @@ static const char col_gray2[] = "#171717";
 static const char col_gray3[] = "#e2e5e9";
 static const char col_gray4[] = "#e2e5e9";
 static const char col_cyan[] = "#71bdf2";
+static const char col_red[] = "#881410";
 static const char *colors[][3] = {
     /*               fg         bg         border   */
     [SchemeNorm] = {col_gray3, col_gray1, col_gray2},
@@ -82,18 +83,23 @@ static const char *dmenucmd[] = {
     "dmenu_run", "-m",      dmenumon, "-fn",    dmenufont, "-nb",     col_gray1,
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 static const char *termcmd[] = {"st", "zsh", NULL};
-static const char *mutecmd[] = {"amixer", "-q",     "set",
-                                "Master", "toggle", NULL};
-static const char *volupcmd[] = {"amixer", "-q",     "set", "Master",
-                                 "5%+",    "unmute", NULL};
-static const char *voldowncmd[] = {"amixer", "-q",     "set", "Master",
-                                   "5%-",    "unmute", NULL};
+static const char mutecmd[] =
+    "amixer set Master toggle; if amixer get Master | grep -Fq \"[off]\"; then "
+    "volnoti-show -m; else volnoti-show $(amixer get Master | grep -Po "
+    "\"[0-9]+(?=%)\" | tail -1); fi";
+static const char volupcmd[] =
+    "amixer set Master 5%+ && volnoti-show $(amixer get Master | grep -Po "
+    "\"[0-9]+(?=%)\" | tail -1)";
+static const char voldowncmd[] =
+    "amixer set Master 5%- && volnoti-show $(amixer get Master | grep -Po "
+    "\"[0-9]+(?=%)\" | tail -1)";
 static const char *miccmd[] = {"amixer", "set", "Capture", "toggle", NULL};
 static const char *brupcmd[] = {"xbacklight", "-inc", "10", NULL};
 static const char *brdowncmd[] = {"xbacklight", "-dec", "10", NULL};
 static const char *rangercmd[] = {"st", "-T", "stfloat", "ranger", NULL};
 static const char *cidercmd[] = {"cider", NULL};
 static const char *speedcrunchcmd[] = {"speedcrunch", NULL};
+static const char *prtsccmd[] = {"flameshot", "gui", NULL};
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -125,14 +131,15 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
     {MODKEY, XK_minus, setgaps, {.i = -1}},
     {MODKEY, XK_plus, setgaps, {.i = +1}},
+    {0, XK_Print, spawn, {.v = prtsccmd}},
     {MODKEY | ShiftMask, XK_plus, setgaps, {.i = 0}},
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
             TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}},
-    {0, XF86XK_AudioMute, spawn, {.v = mutecmd}},
+    {0, XF86XK_AudioMute, spawn, SHCMD(mutecmd)},
     {0, XF86XK_AudioMicMute, spawn, {.v = miccmd}},
-    {0, XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd}},
-    {0, XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd}},
+    {0, XF86XK_AudioLowerVolume, spawn, SHCMD(voldowncmd)},
+    {0, XF86XK_AudioRaiseVolume, spawn, SHCMD(volupcmd)},
     {0, XF86XK_MonBrightnessUp, spawn, {.v = brupcmd}},
     {0, XF86XK_MonBrightnessDown, spawn, {.v = brdowncmd}},
 };
