@@ -55,6 +55,8 @@ xbindkeys &
 xset r rate 300 50
 xset -dpms
 xset s 0 0
+volnoti &
+redshift-gtk -l 51.5045300:-0.1257400 &
 #xrandr --output None-1 --mode 2560x1600 --scale 1
 dwmstatus 2>&1 >/dev/null &
 exec dwm
