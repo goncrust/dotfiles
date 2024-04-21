@@ -73,6 +73,8 @@
 ;; orgmode
 (use-package org
   :ensure t)
+(use-package org-contrib
+  :ensure t)
 ;; rainbow parenthesis
 (use-package rainbow-delimiters
   :ensure t
@@ -144,25 +146,29 @@
   :ensure t
   :config (counsel-projectile-mode 1))
 ;; lsp
-(use-package lsp-mode
+(use-package eglot
   :ensure t
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         ;;(XXX-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+  :config
+  (add-hook 'prog-mode-hook #'eglot-ensure)
+  (add-hook 'prog-mode-hook #'flymake-mode)
+  (setq help-at-pt-display-when-idle t)
+  )
+;; company
 (use-package company
   :ensure t
   :config
   (setq company-minimum-prefix-length 1
         company-idle-delay 0.0)
   :init
-  (company-mode 1))
+  (global-company-mode 1))
+(use-package company-box
+  :ensure t
+  :hook (company-mode . company-box-mode))
 
 ;; Window Config
-(setq inhibit-startup-message t) 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq confirm-kill-emacs #'yes-or-no-p)
+(setq inhibit-startup-message t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -203,7 +209,7 @@
  '(custom-safe-themes
    '(\"4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882\" \"aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8\" \"88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e\" default))
  '(package-selected-packages
-   '(company company-mode lsp-mode counsel-projectile projectile helpful dired+ all-the-icons-dired all-the-icons magit rainbow-delimiters doom-modeline which-key evil-collection evil)))
+   '(company-box company company-mode counsel-projectile projectile helpful dired+ all-the-icons-dired all-the-icons magit rainbow-delimiters doom-modeline which-key evil-collection evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
