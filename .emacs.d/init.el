@@ -40,21 +40,32 @@
   (which-key-mode 1)
   :config
   (setq which-key-idle-delay 0))
-;; vertico - autocomplete menus
-(use-package vertico
+;; ivy
+(use-package ivy
   :ensure t
-  :bind (:map vertico-map
-	    ("C-j" . vertico-next)
-	    ("C-k" . vertico-previous))
-  :custom
-  (vertico-cycle t)
+  :bind (:map ivy-mode-map
+	      ("C-j" . ivy-next-line)
+	      ("C-k" . ivy-previous-line))
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
   :init
-  (vertico-mode 1))
-;; marginalia - enable rich annotations using the Marginalia package
+  (ivy-mode 1))
+;; marginalia
 (use-package marginalia
   :ensure t
   :init
   (marginalia-mode 1))
+;; swiper
+(use-package swiper
+  :ensure t
+  :config
+  (global-set-key (kbd "C-s") 'swiper))
+;; counsel - (C-x C-f) M-o for more options
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
 ;; doom-modeline
 (use-package doom-modeline
   :ensure t
@@ -93,6 +104,31 @@
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h k") #'helpful-key)
   (global-set-key (kbd "C-h x") #'helpful-command))
+;; vterm
+;; zsh not working???
+(use-package vterm
+  :ensure t
+  :config
+  (setq shell-file-name "/bin/zsh")
+  (setq vterm-max-scrollback 5000))
+;; dashboard
+;; projects??
+(use-package dashboard
+  :ensure t
+  :init
+  (setq initial-buffer-choice 'dashboard-open)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-banner-logo-title "Emacs")
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content nil)
+  (setq dashboard-items '((recents . 5)
+			  (agenda . 5)
+			  (bookmarks . 3)
+			  (projects . 3)
+			  (registers . 3)))
+  :config
+  (dashboard-setup-startup-hook))
 ;; projectile
 (use-package projectile
   :ensure t
@@ -106,7 +142,24 @@
   (setq projectile-switch-project-action #'projectile-dired))
 (use-package counsel-projectile
   :ensure t
-  :config (counsel-projectile-mode))
+  :config (counsel-projectile-mode 1))
+;; lsp
+(use-package lsp-mode
+  :ensure t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         ;;(XXX-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+(use-package company
+  :ensure t
+  :config
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.0)
+  :init
+  (company-mode 1))
 
 ;; Window Config
 (setq inhibit-startup-message t) 
@@ -148,9 +201,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e" default))
+   '(\"4ade6b630ba8cbab10703b27fd05bb43aaf8a3e5ba8c2dc1ea4a2de5f8d45882\" \"aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8\" \"88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e\" default))
  '(package-selected-packages
-   '(counsel-projectile projectile helpful dired+ all-the-icons-dired all-the-icons magit rainbow-delimiters doom-modeline marginalia vertico which-key evil-collection evil)))
+   '(company company-mode lsp-mode counsel-projectile projectile helpful dired+ all-the-icons-dired all-the-icons magit rainbow-delimiters doom-modeline which-key evil-collection evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
