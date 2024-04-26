@@ -8,9 +8,10 @@
 ;; Set up package.el to work with MELPA
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '(("melpa" . "https://melpa.org/packages/")
+	       ("org" . "https://orgmode.org/elpa/")))
 (package-initialize)
-;;(package-refresh-contents)
+(package-refresh-contents)
 
 ;; Packages
 ;; use-package
@@ -72,14 +73,25 @@
 (use-package counsel
   :ensure t
   :config
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer))
 ;; doom-modeline
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
 ;; orgmode
 (use-package org
-  :ensure t)
+  :ensure t
+  :config
+  (setq org-ellipsis " ▾")
+  (setq org-agenda-files
+        '("~/org-files/tasks.org"))
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t))
+(use-package org-bullets
+  :ensure t
+  :hook (org-mode . org-bullets-mode))
 (use-package org-contrib
   :ensure t)
 ;; rainbow parenthesis
@@ -128,7 +140,7 @@
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title "Emacs")
+  (setq dashboard-banner-logo-title "GNU Emacs")
   (setq dashboard-startup-banner 'logo)
   (setq dashboard-center-content nil)
   (setq dashboard-items '((recents . 5)
@@ -176,8 +188,7 @@
 (use-package company
   :ensure t
   :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0)
+  (setq company-minimum-prefix-length 1)
   :init
   (global-company-mode 1))
 (use-package company-box
@@ -218,6 +229,8 @@
 (evil-define-key 'normal dired-mode-map
   (kbd "h") 'dired-up-directory
   (kbd "l") 'dired-find-file)
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+(setf dired-kill-when-opening-new-dired-buffer t)
 
 ;; Don't know what this is, will find later
 (custom-set-variables
