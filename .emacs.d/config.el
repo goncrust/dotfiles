@@ -60,7 +60,7 @@
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-banner-logo-title "GNU Emacs")
+  (setq dashboard-banner-logo-title "G ♡ N")
   (setq dashboard-projects-backend 'projectile)
   (setq dashboard-startup-banner (expand-file-name "logos/xemacs_color.svg" user-emacs-directory))
   (setq dashboard-image-banner-max-width 276)
