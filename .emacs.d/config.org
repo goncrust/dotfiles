@@ -1,0 +1,556 @@
+#+TITLE: goncrust's GNU Emacs Config
+#+AUTHOR: goncrust
+#+OPTIONS: toc:2
+
+* Package Manager
+** Package Archives
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+  (package-refresh-contents)
+#+end_src
+
+** use-package
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+    :ensure t
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (eval-and-compile
+    :ensure t
+    (setq use-package-always-ensure t
+          use-package-expand-minimally t))
+#+end_src
+
+* General UI
+** Theme, icons and font
+*** Doom Emacs theme
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t)
+
+  (load-theme 'doom-one t)
+#+end_src
+
+*** Doom Emacs modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1))
+#+end_src
+
+*** Font
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "Hack Nerd Font" :height 135)
+#+end_src
+
+*** All the icons
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :if (display-graphic-p))
+#+end_src
+
+**** dired
+#+begin_src emacs-lisp
+  (use-package all-the-icons-dired
+    :ensure t
+    :if (display-graphic-p)
+    :hook (dired-mode . (lambda () (all-the-icons-dired-mode t)))
+    :config (setq all-the-icons-dired-monochrome nil))
+#+end_src
+
+** Mini-buffer
+*** ivy
+#+begin_src emacs-lisp
+  (use-package ivy
+    :ensure t
+    :bind (:map ivy-mode-map
+                ("C-j" . ivy-next-line)
+                ("C-k" . ivy-previous-line))
+    :init (ivy-mode 1))
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+#+end_src
+
+*** marginalia
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :init
+    (marginalia-mode 1))
+#+end_src
+
+*** counsel
+(C-x C-f) M-o for more options
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t
+    :config
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "C-x b") 'counsel-switch-buffer))
+#+end_src
+
+** Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :init
+    (setq initial-buffer-choice 'dashboard-open)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "GNU Emacs")
+    (setq dashboard-projects-backend 'projectile)
+    (setq dashboard-startup-banner (expand-file-name "logos/xemacs_color.svg" user-emacs-directory))
+    (setq dashboard-image-banner-max-width 276)
+    (setq dashboard-image-banner-max-height 200)
+    (setq dashboard-center-content nil)
+    (setq dashboard-items '((recents . 5)
+                            (agenda . 5)
+                            (bookmarks . 3)
+                            (projects . 3)
+                            (registers . 3)))
+    :config
+    (dashboard-setup-startup-hook))
+#+end_src
+
+** Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+    (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+            treemacs-deferred-git-apply-delay        0.5
+            treemacs-directory-name-transformer      #'identity
+            treemacs-display-in-side-window          t
+            treemacs-eldoc-display                   'simple
+            treemacs-file-event-delay                2000
+            treemacs-file-extension-regex            treemacs-last-period-regex-value
+            treemacs-file-follow-delay               0.2
+            treemacs-file-name-transformer           #'identity
+            treemacs-follow-after-init               t
+            treemacs-expand-after-init               t
+            treemacs-find-workspace-method           'find-for-file-or-pick-first
+            treemacs-git-command-pipe                ""
+            treemacs-goto-tag-strategy               'refetch-index
+            treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+            treemacs-hide-dot-git-directory          t
+            treemacs-indentation                     2
+            treemacs-indentation-string              " "
+            treemacs-is-never-other-window           nil
+            treemacs-max-git-entries                 5000
+            treemacs-missing-project-action          'ask
+            treemacs-move-forward-on-expand          nil
+            treemacs-no-png-images                   nil
+            treemacs-no-delete-other-windows         t
+            treemacs-project-follow-cleanup          nil
+            treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-position                        'left
+            treemacs-read-string-input               'from-child-frame
+            treemacs-recenter-distance               0.1
+            treemacs-recenter-after-file-follow      nil
+            treemacs-recenter-after-tag-follow       nil
+            treemacs-recenter-after-project-jump     'always
+            treemacs-recenter-after-project-expand   'on-distance
+            treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+            treemacs-project-follow-into-home        nil
+            treemacs-show-cursor                     nil
+            treemacs-show-hidden-files               t
+            treemacs-silent-filewatch                nil
+            treemacs-silent-refresh                  nil
+            treemacs-sorting                         'alphabetic-asc
+            treemacs-select-when-already-in-treemacs 'move-back
+            treemacs-space-between-root-nodes        t
+            treemacs-tag-follow-cleanup              t
+            treemacs-tag-follow-delay                1.5
+            treemacs-text-scale                      nil
+            treemacs-user-mode-line-format           nil
+            treemacs-user-header-line-format         nil
+            treemacs-wide-toggle-width               70
+            treemacs-width                           35
+            treemacs-width-increment                 1
+            treemacs-width-is-initially-locked       t
+            treemacs-workspace-switch-cleanup        nil
+            ;; custom
+            treemacs-wrap-around                     nil)
+
+    (treemacs-resize-icons 22)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (when treemacs-python-executable
+        (treemacs-git-commit-diff-mode t))
+
+    (pcase (cons (not (null (executable-find "git")))
+                    (not (null treemacs-python-executable)))
+        (`(t . t)
+        (treemacs-git-mode 'deferred))
+        (`(t . _)
+        (treemacs-git-mode 'simple)))
+
+    (treemacs-hide-gitignored-files-mode nil))
+    :bind
+    (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . -find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
+
+  (use-package treemacs-magit
+    :after (treemacs magit)
+    :ensure t)
+
+  (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+    :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+    :ensure t
+    :config (treemacs-set-scope-type 'Perspectives))
+
+  (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+    :after (treemacs)
+    :ensure t
+    :config (treemacs-set-scope-type 'Tabs))
+#+end_src
+
+** whitespace-mode
+#+begin_src emacs-lisp
+  (use-package whitespace
+    :ensure t
+    :hook (before-save . whitespace-cleanup)
+    :hook (prog-mode . whitespace-mode)
+    :config
+    (setq whitespace-style
+        '(face spaces empty tabs newline trailing space-mark tab-mark)))
+#+end_src
+
+** Other settings
+#+begin_src emacs-lisp
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (setq confirm-kill-emacs #'yes-or-no-p)
+  (setq inhibit-startup-message t)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (blink-cursor-mode -1)
+  (global-hl-line-mode 1)
+  (global-display-line-numbers-mode 1)
+  (setq display-line-numbers-type 'relative)
+  (setq scroll-step 1)
+  (setq scroll-conservatively 1000)
+#+end_src
+
+* Keybindings
+** Evil mode
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1)
+    (evil-set-undo-system 'undo-redo))
+#+end_src
+
+*** Evil collection
+Evil mode for more apps like *package-list-packages*
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :ensure t
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+*** Swap "ciw" with "cio"
+Make "ciw" include underscores, etc
+
+#+begin_src emacs-lisp
+  (define-key evil-outer-text-objects-map "w" 'evil-a-symbol)
+  (define-key evil-inner-text-objects-map "w" 'evil-inner-symbol)
+  (define-key evil-outer-text-objects-map "o" 'evil-a-word)
+  (define-key evil-inner-text-objects-map "o" 'evil-inner-word)
+#+end_src
+
+** Which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init
+    (which-key-mode 1)
+    :config
+    (setq which-key-idle-delay 0))
+#+end_src
+
+** Dired
+#+begin_src emacs-lisp
+  (evil-define-key 'normal dired-mode-map
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file)
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
+  (setf dired-kill-when-opening-new-dired-buffer t)
+#+end_src
+
+** Custom bindings
+*** Parentheses
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-8") "[")
+  (global-set-key (kbd "M-9") "]")
+  (global-set-key (kbd "M-7") "{")
+  (global-set-key (kbd "M-0") "}")
+#+end_src
+
+*** Vim leader
+#+begin_src emacs-lisp
+  (define-key evil-normal-state-map (kbd "SPC q") 'kill-current-buffer)
+  (define-key evil-normal-state-map (kbd "SPC f") 'treemacs-select-window)
+  (define-key evil-normal-state-map (kbd "SPC \\") 'vterm-toggle)
+  (define-key evil-normal-state-map (kbd "SPC l") 'next-buffer)
+  (define-key evil-normal-state-map (kbd "SPC h") 'previous-buffer)
+  (define-key evil-normal-state-map (kbd "SPC b") 'ibuffer)
+  (define-key evil-normal-state-map (kbd "SPC w j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "SPC w k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "SPC w h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "SPC w l") 'evil-window-right)
+  (define-key evil-normal-state-map (kbd "SPC d") 'dashboard-open)
+#+end_src
+
+**** Treemacs
+#+begin_src emacs-lisp
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "SPC f") #'treemacs-select-window)
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "SPC \\") #'vterm-toggle)
+  (evil-define-key 'treemacs treemacs-mode-map (kbd "SPC w l") #'evil-window-right)
+#+end_src
+
+*** Other
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c f") 'format-all-mode) ;; disable/enable auto format
+#+end_src
+
+* Dev
+** Parentheses
+*** electric-pair-mode
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+#+end_src
+
+*** rainbow-delimiters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+end_src
+
+** Tabs
+#+begin_src emacs-lisp
+  (setq tab-width 4
+        tab-always-indent 'complete
+        indent-tabs-mode nil)
+  (setq c-basic-offset 4)
+  (setq c-basic-indent 4)
+#+end_src
+
+** LSP and related
+*** lsp-mode
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :hook (lsp-mode . lsp-enable-which-key-integration)
+    :commands lsp
+    :config
+    (add-hook 'prog-mode-hook 'lsp-deferred)
+    (setq lsp-warn-no-matched-clients nil))
+#+end_src
+
+*** lsp-ui
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :config
+    (setq lsp-ui-doc-show-with-cursor t)
+    (setq lsp-ui-doc-delay 2))
+#+end_src
+
+*** format-all
+#+begin_src emacs-lisp
+  (use-package format-all
+    :ensure t
+    :hook (prog-mode . format-all-mode)
+    :config
+    (add-hook 'format-all-mode-hook 'format-all-ensure-formatter))
+#+end_src
+
+*** flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :config
+    (add-hook 'after-init-hook #'global-flycheck-mode))
+#+end_src
+
+*** company
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (setq company-minimum-prefix-length 1)
+    (define-key company-mode-map (kbd "C-SPC") 'company-complete)
+    :init
+    (global-company-mode 1))
+#+end_src
+
+**** company-box
+#+begin_src emacs-lisp
+  (use-package company-box
+    :ensure t
+    :hook (company-mode . company-box-mode))
+#+end_src
+
+* Files and projects
+** Files
+*** History
+#+begin_src emacs-lisp
+  (use-package undohist
+    :ensure t
+    :config
+    (undohist-initialize))
+
+  (save-place-mode 1)
+#+end_src
+
+*** Autosave
+#+begin_src emacs-lisp
+  (setq auto-save-visited-mode t
+        auto-save-visited-interval 2)
+#+end_src
+
+*** Backup
+Disable file backups (~ at the end)
+
+#+begin_src emacs-lisp
+  (setq make-backup-files nil)
+#+end_src
+
+** projectile
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config (projectile-mode 1)
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    ;; NOTE: Set this to the folder where you keep your Git repos!
+    (when (file-directory-p "~/Documents/dev")
+          (setq projectile-project-search-path '("~/Documents/dev")))
+    (setq projectile-switch-project-action #'projectile-dired))
+#+end_src
+
+*** counsel-projectile
+#+begin_src emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :config (counsel-projectile-mode 1))
+#+end_src
+
+* Orgmode
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure t
+    :config
+    (setq org-ellipsis "")
+    (setq org-agenda-files
+          '("~/org-files/tasks.org"))
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+    (add-hook 'org-mode-hook 'org-indent-mode))
+#+end_src
+
+** org-bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :hook (org-mode . org-bullets-mode))
+#+end_src
+
+** org-contrib
+#+begin_src emacs-lisp
+  (use-package org-contrib
+    :ensure t)
+#+end_src
+
+** org-babel
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((emacs-lisp . t)))
+  (setq org-confirm-babel-evaluate nil)
+#+end_src
+
+* Other utilities
+** swiper
+#+begin_src emacs-lisp
+  (use-package swiper
+    :ensure t
+    :config
+    (global-set-key (kbd "C-s") 'swiper))
+#+end_src
+
+** helpful
+#+begin_src emacs-lisp
+  (use-package helpful
+    :ensure t
+    :config
+    (global-set-key (kbd "C-h f") #'helpful-callable)
+    (global-set-key (kbd "C-h v") #'helpful-variable)
+    (global-set-key (kbd "C-h k") #'helpful-key)
+    (global-set-key (kbd "C-h x") #'helpful-command))
+#+end_src
+
+** magit
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t)
+#+end_src
+
+** vterm
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t
+    :config
+    (setq shell-file-name '"/bin/zsh")
+    (setq vterm-shell '"/bin/zsh")
+    (setq vterm-max-scrollback 5000))
+#+end_src
+
+*** vterm-toggle
+#+begin_src emacs-lisp
+  (use-package vterm-toggle
+    :ensure t)
+#+end_src
