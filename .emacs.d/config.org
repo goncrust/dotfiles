@@ -33,6 +33,29 @@
   (load-theme 'doom-ir-black t)
 #+end_src
 
+*** haki theme
+#+begin_src emacs-lisp
+  (use-package haki-theme
+    :ensure t
+    :custom-face
+    ;;(haki-region ((t (:background "#2e8b57" :foreground "#ffffff"))))
+    ;;(haki-highlight ((t (:background "#fafad2" :foreground "#000000"))))
+    :config
+    ;; For meow/evil users (change border of mode-line according to modal states)
+    (add-hook 'post-command-hook #'haki-modal-mode-line)
+
+    (load-theme 'haki t)
+    )
+#+end_src
+
+*** modus-themes
+#+begin_src emacs-lisp
+  (use-package modus-themes
+    :ensure t)
+
+  ;;(load-theme 'modus-vivendi t)
+#+end_src
+
 *** Doom Emacs modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -243,6 +266,7 @@
     :hook (prog-mode . whitespace-mode)
     :config
     (setq whitespace-style
+        ;;'(face empty tabs newline trailing)))
         '(face spaces empty tabs newline trailing space-mark tab-mark)))
 #+end_src
 
@@ -375,6 +399,19 @@ Make "ciw" include underscores, etc
   (setq c-basic-indent 4)
 #+end_src
 
+** Modes
+*** bison-mode
+#+begin_src emacs-lisp
+  (use-package bison-mode
+    :ensure t)
+#+end_src
+
+*** javascript
+#+begin_src emacs-lisp
+  (use-package js2-mode
+    :ensure t)
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+#+end_src
 ** LSP and related
 *** lsp-mode
 #+begin_src emacs-lisp
