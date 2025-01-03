@@ -83,3 +83,7 @@
 (map! :desc "Write ]" :i "M-9" "]")
 (map! :desc "Write {" :i "M-7" "{")
 (map! :desc "Write }" :i "M-0" "}")
+
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
+
+(setq-hook! 'python-mode-hook +format-with 'black)
