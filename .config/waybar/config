@@ -31,6 +31,7 @@
         "cpu",
         "temperature",
         "battery",
+        "pulseaudio#output",
         "clock#date",
         "clock#time",
         "tray"
@@ -125,22 +126,13 @@
         "format": "{name}",
     },
 
-    //"pulseaudio": {
-    //    //"scroll-step": 1,
-    //    "format": "{icon}  {volume}%",
-    //    "format-bluetooth": "{icon}  {volume}%",
-    //    "format-muted": "",
-    //    "format-icons": {
-    //        "headphones": "",
-    //        "handsfree": "",
-    //        "headset": "",
-    //        "phone": "",
-    //        "portable": "",
-    //        "car": "",
-    //        "default": ["", ""]
-    //    },
-    //    "on-click": "pavucontrol"
-    //},
+    "pulseaudio#output": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "default": ["", ""]
+        },
+    },
 
     "temperature": {
       "critical-threshold": 80,
