@@ -1,5 +1,7 @@
 # Read `man 5 sway` for a complete reference.
 
+exec mako
+
 font pango:HackNerdFont Medium 12
 
 default_border pixel 2
