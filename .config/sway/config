@@ -59,8 +59,13 @@ output DP-2 mode 2560x1440@180Hz position 1080 250
 # Read `man 5 sway-input` for more information about this section.
 input "type:keyboard" xkb_layout pt
 input "type:keyboard" xkb_options caps:escape
+input "type:keyboard" repeat_delay 300
+input "type:keyboard" repeat_rate 50
 
 input "type:pointer" accel_profile flat
+
+input "type:touchpad" tap enable
+input "type:touchpad" natural_scroll enable
 
 ### Key bindings
 #
