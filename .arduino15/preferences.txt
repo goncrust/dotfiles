@@ -1,4 +1,0 @@
-editor.window.height.default=1060
-editor.window.height.min=290
-editor.window.width.default=1904
-editor.window.width.min=400
