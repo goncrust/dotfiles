@@ -20,6 +20,9 @@ set $term foot
 # Your preferred application launcher
 set $menu wmenu-run
 
+set $disp1 "DP-2"
+set $disp2 "HDMI-A-1"
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -30,8 +33,8 @@ set $menu wmenu-run
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-output DP-3 mode 1920x1080@100Hz position 0 0 transform 270
-output DP-2 mode 2560x1440@180Hz position 1080 250
+output $disp1 mode 2560x1440@180Hz position 0 0
+output $disp2 mode 1920x1080@100Hz position 2560 250 transform 90
 
 ### Idle configuration
 #
@@ -46,8 +49,8 @@ output DP-2 mode 2560x1440@180Hz position 1080 250
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 exec swayidle -w \
-         timeout 120 'swaylock -f -c 000000' \
-         timeout 150 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 1800 'swaylock -f -c 000000' \
+         timeout 1920 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
 
 ### Input configuration
@@ -139,6 +142,17 @@ input "type:touchpad" natural_scroll enable
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+
+    workspace 1 output $disp1
+    workspace 2 output $disp1
+    workspace 3 output $disp1
+    workspace 4 output $disp1
+    workspace 5 output $disp1
+    workspace 6 output $disp2
+    workspace 7 output $disp2
+    workspace 8 output $disp2
+    workspace 9 output $disp2
+    workspace 10 output $disp2
 #
 # Layout stuff:
 #
