@@ -20,6 +20,11 @@ set $term foot
 # Your preferred application launcher
 set $menu wmenu-run
 
+set $browser firefox
+
+set $calculator speedcrunch
+for_window [title="SpeedCrunch"] floating enable
+
 set $disp1 "DP-2"
 set $disp2 "HDMI-A-1"
 
@@ -82,6 +87,10 @@ input "type:touchpad" natural_scroll enable
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+
+    bindsym $mod+u exec $term vifm
+    bindsym $mod+i exec $browser
+    bindsym $mod+o exec $calculator
 
     # Kill focused window
     bindsym $mod+Shift+c kill
@@ -178,6 +187,7 @@ input "type:touchpad" natural_scroll enable
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
+
 #
 # Scratchpad:
 #
