@@ -87,3 +87,6 @@
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 (setq-hook! 'python-mode-hook +format-with 'black)
+
+(after! treemacs
+  (setq treemacs-collapse-dirs 9999))
