@@ -88,7 +88,7 @@ input "type:touchpad" natural_scroll enable
     # Start a terminal
     bindsym $mod+Return exec $term
 
-    bindsym $mod+u exec $term vifm
+    bindsym $mod+u exec $term ranger
     bindsym $mod+i exec $browser
     bindsym $mod+o exec $calculator
 
