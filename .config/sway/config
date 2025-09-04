@@ -81,6 +81,8 @@ input "type:pointer" accel_profile flat
 input "type:touchpad" tap enable
 input "type:touchpad" natural_scroll enable
 
+input * drag_lock disabled
+
 ### Key bindings
 #
 # Basics:
