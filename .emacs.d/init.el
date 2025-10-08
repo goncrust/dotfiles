@@ -1,3 +1,4 @@
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -137,7 +138,7 @@
 (use-package consult
   :init
   (global-set-key (kbd "C-x b") #'consult-buffer)
-  (global-set-key (kbd "C-c s") #'consult-ripgrep)
+  (global-set-key (kbd "C-c /") #'consult-ripgrep)
   (global-set-key (kbd "C-c f") #'consult-find)
   :config
   ;; Always preview
@@ -180,6 +181,19 @@
   :ensure nil
   :init (setq display-line-numbers-type 'relative)
   :hook (prog-mode . display-line-numbers-mode))
+
+;;; --- Markdown --------------------------------------------------------------
+;; Classic font-lock highlighting
+(use-package markdown-mode
+  :mode (("README\\(?:\\.md\\)?\\'" . gfm-mode)
+         ("\\.md\\'"               . markdown-mode)
+         ("\\.markdown\\'"         . markdown-mode))
+  :init
+  ;; nice defaults
+  (setq markdown-fontify-code-blocks-natively t
+        markdown-enable-wiki-links t
+        markdown-enable-math t
+        markdown-list-indent-width 2))
 
 ;; ---------- LSP (Eglot) -----------------------------------------------------
 (use-package eglot
@@ -235,14 +249,14 @@
         '(:documentFormattingProvider :documentRangeFormattingProvider))
   )
 
-;; Arch stores grammars in /usr/lib/tree-sitter
+;; Arch stores grammars in /usr/lib/tree_sitter
 (when (boundp 'treesit-extra-load-path)
-  (add-to-list 'treesit-extra-load-path "/usr/lib/tree-sitter"))
+  (add-to-list 'treesit-extra-load-path "/usr/lib/tree_sitter"))
 
 ;; Handy keys (tweak as you like)
 (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c r") #'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c a") #'eglot-code-actions))
+  (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
+  (define-key eglot-mode-map (kbd "C-c l a") #'eglot-code-actions))
 
 ;; ---------- Completions & docs ----------------------------------------------
 (use-package corfu
@@ -265,10 +279,7 @@
 ;; TAB should complete nicely
 (setq tab-always-indent 'complete)
 (with-eval-after-load 'corfu
-  (define-key corfu-map (kbd "TAB")       #'corfu-insert)
-  (define-key corfu-map (kbd "<tab>")     #'corfu-insert)
-  (define-key corfu-map (kbd "S-TAB")     #'corfu-previous)
-  (define-key corfu-map (kbd "<backtab>") #'corfu-previous))
+  (define-key corfu-map (kbd "<tab>")     #'corfu-insert))
 
 ;; Eldoc: show rich signatures at the bottom
 (setq eldoc-idle-delay 0.12
@@ -298,7 +309,7 @@
 
 ;; ---------- Formatters -------------------------------------------------------
 ;; Python: Black + isort
-(use-package python-black :hook (python-mode . python-black-on-save-mode-enable-dwim))
+(use-package python-black :hook (before-save . python-black-buffer))
 (use-package py-isort     :hook (before-save . py-isort-before-save))
 
 ;; C/C++: clang-format on save (buffer-local)
@@ -326,3 +337,60 @@
                           (shell-command (format "latexindent -w %s"
                                                  (shell-quote-argument buffer-file-name)))))
                       nil t)))
+
+;;; --- Project tree (Treemacs) ----------------------------------------------
+(use-package treemacs
+  :init
+  (global-set-key (kbd "C-c t") #'treemacs-select-window)
+  :config
+  (setq treemacs-width 30
+        treemacs-follow-after-init t
+        treemacs-is-never-other-window t)
+  (treemacs-follow-mode 1)      ; follow current file
+  (treemacs-filewatch-mode 1)   ; auto-refresh on changes
+  (treemacs-git-mode 'deferred)) ; git badges without lag
+
+;; Icons (works great with nerd fonts)
+(use-package treemacs-nerd-icons
+  :after treemacs
+  :config
+  (treemacs-load-theme "nerd-icons"))
+;; If you haven’t yet: M-x nerd-icons-install-fonts
+
+(with-eval-after-load 'treemacs
+  (setq treemacs-is-never-other-window nil))  ;; let navigation/select see it
+
+;; Evil integration (optional but nice)
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+;; Projectile integration
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+;; Magit integration (optional)
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+;;; --- Tabs like Firefox ----------------------------------------------------
+(use-package centaur-tabs
+  :demand t
+  :hook
+  (after-init . centaur-tabs-mode)
+  :custom
+  (centaur-tabs-style "bar")
+  (centaur-tabs-height 32)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-set-bar 'over)
+  (centaur-tabs-set-close-button nil)
+  (centaur-tabs-set-modified-marker t)
+  (centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-adjust-buffer-order t)
+  (centaur-tabs-show-navigation-buttons nil)
+  :config
+  ;; Group buffers by Projectile project (like IDE tabs)
+  (centaur-tabs-group-by-projectile-project)
+
+  ;; If you use Doom themes
+  (with-eval-after-load 'doom-themes
+    (centaur-tabs-headline-match)))
