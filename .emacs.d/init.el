@@ -66,6 +66,8 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01)
 
+(setq doc-view-resolution 400)
+
 ;; ---------- Font settings ---------------------------------------------------
 ;; Main font
 (set-face-attribute 'default nil
