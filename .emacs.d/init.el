@@ -4,7 +4,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(cape centaur-tabs clang-format consult corfu doom-modeline
+	  doom-themes evil-collection marginalia markdown-mode
+	  orderless prettier py-isort python-black pyvenv smartparens
+	  treemacs-evil treemacs-magit treemacs-nerd-icons
+	  treemacs-projectile vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -260,6 +265,11 @@
   (define-key eglot-mode-map (kbd "C-c l r") #'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c l a") #'eglot-code-actions))
 
+;; python venvs
+(use-package pyvenv
+  :config
+  (setq pyvenv-activate-on-switch nil))
+
 ;; ---------- Completions & docs ----------------------------------------------
 (use-package corfu
   :init (global-corfu-mode)
@@ -396,3 +406,4 @@
   ;; If you use Doom themes
   (with-eval-after-load 'doom-themes
     (centaur-tabs-headline-match)))
+
