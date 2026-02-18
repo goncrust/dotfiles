@@ -77,6 +77,7 @@ input "type:keyboard" repeat_delay 300
 input "type:keyboard" repeat_rate 50
 
 input "type:pointer" accel_profile flat
+input "type:pointer" pointer_accel -0.2
 
 input "type:touchpad" tap enable
 input "type:touchpad" natural_scroll enable
