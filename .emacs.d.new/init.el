@@ -3,7 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(all-the-icons-dired consult doom-modeline doom-themes evil-collection magit marginalia orderless rainbow-delimiters
+                         undo-fu vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -24,6 +26,27 @@
       scroll-conservatively 1000
       scroll-margin 5)
 
+(global-whitespace-mode 1)
+(setq whitespace-style '(face    ; Use font-lock faces to colorize
+                         spaces  ; Highlight spaces
+                         space-mark ; Use a special character for spaces
+                         trailing ; Highlight trailing blanks
+                         ;lines-tail ; Highlight lines beyond 'fill-column'
+                         space-before-tab ; Highlight spaces before tabs
+                         indentation ; Highlight improper indentation
+                         empty    ; Highlight empty lines at top/bottom
+                         ;newline  ; Highlight newlines
+                         ;newline-mark ; Use a special character for newlines
+                         tabs    ; Highlight tabs
+                         tab-mark))   ; Use a special character for tabs
+
+(setq-default fill-column 120)                  ; Set the default width
+(global-display-fill-column-indicator-mode 1)  ; Enable the vertical ruler globally
+
+(setq-default indent-tabs-mode nil) ; Use spaces instead of tabs
+(setq-default tab-width 4)          ; Set width to 4
+(setq tab-always-indent nil)  ; Try to indent, then try to complete
+
 ;; Package management
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -42,6 +65,7 @@
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-fu)
+  (setq evil-symbol-word-search t)
   :config
   (evil-mode 1))
 
@@ -57,8 +81,8 @@
   :init
   (vertico-mode)
   :bind (:map vertico-map
-	      ("C-j" . vertico-next)
-	      ("C-k" . vertico-previous)))
+          ("C-j" . vertico-next)
+          ("C-k" . vertico-previous)))
 
 (use-package marginalia
   :init
@@ -88,10 +112,13 @@
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
-  
+
   (load-theme 'doom-ir-black t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
+
+;; Font
+(set-face-attribute 'default nil :font "Hack" :height 130)
 
 ;; Save place and history
 (use-package savehist
@@ -102,8 +129,12 @@
   :config
   (save-place-mode 1))
 
-;; Font
-(set-face-attribute 'default nil :font "Hack" :height 130)
+;; parens
+(electric-pair-mode 1)
+(show-paren-mode 1)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Magit
 (use-package magit
@@ -118,16 +149,21 @@
   :config
   ;; Allow 'dired-find-alternate-file' to run without a warning
   (put 'dired-find-alternate-file 'disabled nil)
-  
+
   (with-eval-after-load 'evil
     ;; Global bind for '-' to jump into Dired from any buffer
-    (evil-define-key 'normal 'global (kbd "-") 'dired-jump)
+    (define-prefix-command 'my-dired-prefix)
+    (evil-define-key 'normal 'global (kbd "-") 'my-dired-prefix)
+
+    (evil-define-key 'normal 'global (kbd "--") 'dired-jump)
+    (evil-define-key 'normal 'global (kbd "-d")
+      (lambda () (interactive) (dired "~/Documents/dev")))
 
     ;; Dired-specific navigation
     (evil-define-key 'normal dired-mode-map
       ;; 'l' opens the directory/file in the SAME buffer
       (kbd "l") 'dired-find-alternate-file
-      
+
       ;; 'h' goes up a directory and kills the current buffer
       ;; We use a lambda to ensure the "up" movement also replaces the buffer
       (kbd "h") (lambda () (interactive) (find-alternate-file "..")))))
