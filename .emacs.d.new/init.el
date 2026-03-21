@@ -47,6 +47,8 @@
 (setq-default tab-width 4)          ; Set width to 4
 (setq tab-always-indent nil)  ; Try to indent, then try to complete
 
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
 ;; Package management
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -158,6 +160,8 @@
     (evil-define-key 'normal 'global (kbd "--") 'dired-jump)
     (evil-define-key 'normal 'global (kbd "-d")
       (lambda () (interactive) (dired "~/Documents/dev")))
+    (evil-define-key 'normal 'global (kbd "-h")
+      (lambda () (interactive) (dired "~")))
 
     ;; Dired-specific navigation
     (evil-define-key 'normal dired-mode-map
