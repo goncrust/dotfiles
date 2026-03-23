@@ -3,9 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(all-the-icons-dired consult doom-modeline doom-themes evil-collection magit marginalia orderless rainbow-delimiters
-                         undo-fu vertico)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -157,6 +155,8 @@
     (define-prefix-command 'my-dired-prefix)
     (evil-define-key 'normal 'global (kbd "-") 'my-dired-prefix)
 
+    (evil-define-key 'normal 'global (kbd "- <") 'consult-buffer)
+
     (evil-define-key 'normal 'global (kbd "--") 'dired-jump)
     (evil-define-key 'normal 'global (kbd "-d")
       (lambda () (interactive) (dired "~/Documents/dev")))
@@ -171,3 +171,19 @@
       ;; 'h' goes up a directory and kills the current buffer
       ;; We use a lambda to ensure the "up" movement also replaces the buffer
       (kbd "h") (lambda () (interactive) (find-alternate-file "..")))))
+
+;; todos
+(use-package hl-todo
+  :hook (prog-mode . hl-todo-mode))
+
+(use-package magit-todos
+  :after magit
+  :config
+  (magit-todos-mode 1))
+
+;; multiple cursors
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C-*"         . mc/mark-next-like-this)
+         ("C-#"         . mc/mark-previous-like-this)
+         ("C-c C-*"     . mc/mark-all-like-this)))
