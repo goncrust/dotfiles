@@ -3,9 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(all-the-icons-dired consult doom-modeline doom-themes evil-collection evil-org magit-todos marginalia markdown-mode
-                         multiple-cursors orderless org-superstar rainbow-delimiters undo-fu vertico)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -224,3 +222,89 @@
 
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode))
+
+;; ------- LSP Configuration --------
+
+;; Core LSP (lsp-mode)
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (
+         (python-mode . lsp)
+         (c-mode . lsp)
+         (c++-mode . lsp)
+         (rust-mode . lsp)
+         (js-mode . lsp)
+
+         (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil)
+
+  (with-eval-after-load 'lsp-mode
+    (evil-define-key 'normal lsp-mode-map
+      (kbd "g d") 'lsp-find-definition
+      (kbd "g r") 'lsp-find-references
+      (kbd "K")   'lsp-ui-doc-focus-frame
+      (kbd "g e N") 'flycheck-previous-error
+      (kbd "g e n") 'flycheck-next-error))
+  :commands lsp)
+
+;; Better syntax checking
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+;; Better UI
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :custom
+  ;; Documentation Settings
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-header nil)
+  (lsp-ui-doc-include-signature nil)
+  (lsp-ui-doc-position 'top) ;; Options: 'top, 'bottom, or 'at-point
+  (lsp-ui-doc-max-height 30)
+  (lsp-ui-doc-max-width 120)
+
+  ;; Control the behavior
+  (lsp-ui-doc-delay 0.5)          ;; Wait 0.5s before showing (prevents flickering while moving)
+  (lsp-ui-doc-show-with-cursor t) ;; Don't show just because cursor moved...
+  (lsp-ui-doc-show-with-mouse nil)    ;; ...but show if mouse hovers (optional)
+
+  ;; Sideline settings
+  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-show-hover nil))      ;; Turn off sideline to focus on the doc window
+
+;; Auto completion
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  :bind (:map company-active-map
+          ("C-j" . company-select-next)
+          ("C-k" . company-select-previous)
+          ("<tab>" . company-complete-selection))
+  :config
+  (with-eval-after-load 'company
+    (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.1)) ; 0.1s is usually smoother than 0.0s
+
+(use-package company-box
+  :hook (company-mode . company-box-mode)
+  :config (custom-set-faces
+           ;; This handles the background of the selected line in the box
+           '(company-box-selection ((t (:background "#32383e" :foreground "#ffffff"))))))
+
+;; Python (pyright + ruff)
+(use-package lsp-pyright
+  :custom (lsp-pyright-langserver-command "pyright") ;; or basedpyright
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+(use-package pyvenv
+  :config
+  (pyvenv-mode 1))
+
+;; Rust
+(use-package rust-mode)
