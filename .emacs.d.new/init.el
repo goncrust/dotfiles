@@ -3,7 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(all-the-icons-dired consult doom-modeline doom-themes evil-collection evil-org magit-todos marginalia markdown-mode
+                         multiple-cursors orderless org-superstar rainbow-delimiters undo-fu vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -162,6 +164,8 @@
       (lambda () (interactive) (dired "~/Documents/dev")))
     (evil-define-key 'normal 'global (kbd "-h")
       (lambda () (interactive) (dired "~")))
+    (evil-define-key 'normal 'global (kbd "-o")
+      (lambda () (interactive) (dired "~/Documents/org")))
 
     ;; Dired-specific navigation
     (evil-define-key 'normal dired-mode-map
@@ -183,7 +187,40 @@
 
 ;; multiple cursors
 (use-package multiple-cursors
-  :ensure t
   :bind (("C-*"         . mc/mark-next-like-this)
          ("C-#"         . mc/mark-previous-like-this)
          ("C-c C-*"     . mc/mark-all-like-this)))
+
+;; markdown
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
+
+;; org mode
+(use-package org
+  :ensure nil
+  :hook (org-mode . visual-line-mode)
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture))
+  :config
+  (setq org-directory "~/Documents/org")
+  ;; tasks.org, notes.org, journal.org
+  (setq org-agenda-files '("~/Documents/org/"))
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)" "|" "DONE(d)")))
+
+  (setq org-todo-keyword-faces
+        '(("NEXT" . "orange")
+          ("IN-PROGRESS" . "cyan")))
+
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline (lambda () (expand-file-name "tasks.org" org-directory)) "Inbox")
+           "* TODO %?")
+          ("n" "Note" entry (file+headline (lambda () (expand-file-name "notes.org" org-directory)) "Notes")
+           "* %u %?\n  %i\n")
+          ("j" "Journal" entry (file+olp+datetree (lambda () (expand-file-name "journal.org" org-directory)))
+           "* %?\nEntered on %U\n  %i\n"))))
+
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode))
