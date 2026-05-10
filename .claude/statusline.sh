@@ -67,19 +67,20 @@ format_rl() {
   pct="$1"
   reset_ts="$2"
   label="$3"
+  date_fmt="${4:-+%H:%M}"
   [ -z "$pct" ] && return
   if [ "$pct" -ge 90 ]; then color="$RED"
   elif [ "$pct" -ge 70 ]; then color="$YELLOW"
   else color="$GREEN"
   fi
-  reset_time=$(date -r "$reset_ts" "+%-I:%M%p" 2>/dev/null || date -d "@$reset_ts" "+%-I:%M%p" 2>/dev/null)
+  reset_time=$(date -r "$reset_ts" "$date_fmt" 2>/dev/null || date -d "@$reset_ts" "$date_fmt" 2>/dev/null)
   bar=$(make_bar "$pct")
   printf "${color}${label} ${bar} ${pct}%% resets ${reset_time}${RESET}"
 }
 
 rate_limit_str=""
 rate_limit_str_5h="${rate_limit_str}$(format_rl "$rl_5h_pct" "$rl_5h_reset" "5h")"
-rate_limit_str_7d="${rate_limit_str}$(format_rl "$rl_7d_pct" "$rl_7d_reset" "7d")"
+rate_limit_str_7d="${rate_limit_str}$(format_rl "$rl_7d_pct" "$rl_7d_reset" "7d" "+%-d %b %H:%M")"
 
 repo_root=$(
   if [ -n "$current_dir" ]; then
@@ -90,4 +91,4 @@ repo_root=$(
 )
 dir_display=$(basename "$repo_root")
 
-printf "🤖 %s | 🧠 %s | 💰 %s | ⏱️ 5h %s | ⏱️ 7d %s\n📁 %s | 🌳 %s | 🌿 %s" "$model" "$usage_str" "$block_str" "$rate_limit_str_5h" "$rate_limit_str_7d" "$dir_display" "$worktree_str" "$git_str"
+printf "🤖 %s | 🧠 %s | 💰 %s | ⏱️ %s | ⏱️ %s\n📁 %s | 🌳 %s | 🌿 %s" "$model" "$usage_str" "$block_str" "$rate_limit_str_5h" "$rate_limit_str_7d" "$dir_display" "$worktree_str" "$git_str"
