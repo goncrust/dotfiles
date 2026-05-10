@@ -233,7 +233,10 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
     # Special key to take a screenshot with grim
-    bindsym Print exec grim
+    bindsym Print exec sway-screenshot -m region --clipboard-only
+
+    # Lock screen
+    bindsym $mod+shift+p exec swaylock -f -c 000000
 
 #
 # Status Bar:
