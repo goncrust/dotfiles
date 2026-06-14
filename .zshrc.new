@@ -1,0 +1,133 @@
+#
+# ~/.zshrc
+#
+
+# ---- fastfetch ----
+clear
+fastfetch --config ~/Documents/dev/fastfetch/presets/arch.jsonc
+
+# ---- locale ----
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# ---- history ----
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.cache/zsh/history
+mkdir -p "${HISTFILE:h}"
+setopt HIST_IGNORE_ALL_DUPS     # remove older copy when a command repeats
+setopt HIST_SAVE_NO_DUPS        # never write duplicate events to the file
+setopt HIST_IGNORE_SPACE        # ignore commands starting with a space
+setopt HIST_REDUCE_BLANKS       # trim superfluous whitespace (no bash equivalent)
+setopt INC_APPEND_HISTORY_TIME  # append each command immediately, with timestamp
+setopt EXTENDED_HISTORY         # record start time / duration
+
+# ---- vi mode ----
+bindkey -v
+export KEYTIMEOUT=1                                   # snappy ESC
+bindkey '^R' history-incremental-search-backward      # Ctrl-R reverse search
+
+# cursor shape per mode (6 = steady bar -> insert, 2 = steady block -> command)
+__zle_set_cursor() {
+    case $KEYMAP in
+        vicmd)      print -n '\e[2 q' ;;
+        main|viins) print -n '\e[6 q' ;;
+    esac
+}
+zle-keymap-select() { __zle_set_cursor }
+zle-line-init()     { zle -K viins; print -n '\e[6 q' }   # start each line in insert
+zle -N zle-keymap-select
+zle -N zle-line-init
+
+# edit the current command line in $EDITOR: press v in command mode
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
+# ---- completion ----
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'  # case-insensitive (CASE_SENSITIVE=false)
+# bash-like behaviour: fill the longest common prefix and list on ambiguity;
+# never auto-insert the first match or open a cycling menu
+unsetopt MENU_COMPLETE
+unsetopt AUTO_MENU
+setopt AUTO_LIST
+
+# ---- git info for prompt ----
+__git_info() {
+    git rev-parse --is-inside-work-tree &>/dev/null || return
+    local branch
+    branch=$(git symbolic-ref --short -q HEAD \
+        || git describe --tags --exact-match 2>/dev/null \
+        || git rev-parse --short HEAD 2>/dev/null)
+    local dirty=''
+    [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty='*'
+    print -n -- "${branch}${dirty}"
+}
+
+# ---- env info for prompt (conda + python venv) ----
+__env_info() {
+    local env=''
+    [[ -n $VIRTUAL_ENV ]] && env="${VIRTUAL_ENV:t}"
+    [[ -n $CONDA_DEFAULT_ENV ]] && env="${env:+$env|}${CONDA_DEFAULT_ENV}"
+    print -n -- "$env"
+}
+
+# ---- prompt ----
+# layout: (env) <code> [user@host dir branch*]$
+# colours: brackets/@/]/$ red, user yellow, host cyan, dir magenta,
+#          git green, env blue, return code red (only shown when non-zero).
+# Rebuilt every prompt (like bash PROMPT_COMMAND), which also wipes conda's own
+# (env) prefix so it never doubles up with our env segment.
+__prompt_precmd() {
+    local exit=$?    # MUST be captured first
+
+    local e g envseg='' gitseg='' codeseg=''
+    e=$(__env_info); [[ -n $e ]] && envseg="%F{blue}(${e})%f "
+    g=$(__git_info); [[ -n $g ]] && gitseg=" %F{green}${g}%f"
+    (( exit != 0 )) && codeseg="%F{red}${exit}%f "
+
+    PROMPT="${envseg}${codeseg}%F{red}[%f%F{yellow}%n%f%F{red}@%f%F{cyan}%m%f %F{magenta}%1~%f${gitseg}%F{red}]%f%F{red}%(!.#.\$)%f "
+}
+typeset -ga precmd_functions
+precmd_functions+=(__prompt_precmd)
+
+# ---- aliases ----
+alias dev="cd /home/goncrust/Documents/dev"
+alias rm="rm -I"
+alias mv="mv -v"
+alias ls="eza --header --color always --icons --git --group"
+alias lst="ls --tree"
+alias lst2="ls --tree --level=2"
+alias lst3="ls --tree --level=3"
+alias clear="clear;fastfetch --config ~/Documents/dev/fastfetch/presets/arch.jsonc"
+alias vim="nvim"
+alias grep="grep --color=auto"
+alias prtsc="flameshot gui & disown"
+
+# ---- functions ----
+cat()   { bat "$@" }
+video() { mpv "$@" & disown }
+img()   { nsxiv "$@" & disown }
+pdf()   { zathura "$@" & disown }
+
+export PATH=~/.config/emacs/bin:~/.local/bin/:$PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/goncrust/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/goncrust/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/goncrust/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/goncrust/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# ---- syntax highlighting (MUST be sourced last) ----
+source ~/.zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
