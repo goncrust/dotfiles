@@ -1,0 +1,12 @@
+# Betterbird hard-codes absolute paths to its coloured tray icons, so icon
+# themes can't touch them. Reapply the monochrome ones after every upgrade.
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = betterbird-bin
+
+[Action]
+Description = Restoring monochrome Betterbird tray icons...
+When = PostTransaction
+Exec = /usr/bin/install -m644 -t /opt/betterbird/chrome/icons/default /usr/local/share/betterbird-tray/default.svg /usr/local/share/betterbird-tray/newmail.svg
