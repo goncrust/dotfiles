@@ -1,3 +1,5 @@
+;;; init.el --- goncrust config  -*- lexical-binding: t -*-
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -24,7 +26,7 @@
       scroll-conservatively 1000
       scroll-margin 5)
 
-(global-whitespace-mode 1)
+(add-hook 'prog-mode-hook #'whitespace-mode)
 (setq whitespace-style '(face    ; Use font-lock faces to colorize
                          spaces  ; Highlight spaces
                          space-mark ; Use a special character for spaces
@@ -37,6 +39,7 @@
                          ;newline-mark ; Use a special character for newlines
                          tabs    ; Highlight tabs
                          tab-mark))   ; Use a special character for tabs
+(add-hook 'org-mode-hook (lambda () (whitespace-mode -1)))
 
 (setq-default fill-column 120)                  ; Set the default width
 (global-display-fill-column-indicator-mode 1)  ; Enable the vertical ruler globally
@@ -93,8 +96,18 @@
   (completion-styles '(orderless basic)))
 
 (use-package consult
-  :bind (("C-x b" . consult-buffer))
-  :bind (("C-c r" . consult-ripgrep)))
+  :bind (("C-x b" . consult-buffer)
+         ("C-c r" . consult-ripgrep)
+         ("C-c f" . consult-find))
+  :config
+  (defun my/consult-ripgrep-symbol-at-point ()
+    "Run consult-ripgrep with the symbol at point as initial input."
+    (interactive)
+    (consult-ripgrep nil (thing-at-point 'symbol)))
+
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal 'global (kbd "C-+")
+      #'my/consult-ripgrep-symbol-at-point)))
 
 (use-package which-key
   :init
@@ -113,7 +126,8 @@
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
 
-  (load-theme 'doom-ir-black t)
+  ;(load-theme 'doom-ir-black t)
+  (load-theme 'doom-material-dark t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
 
@@ -192,18 +206,24 @@
 ;; markdown
 (use-package markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "pandoc")
+  :config
+    (setq browse-url-browser-function 'browse-url-generic
+          browse-url-generic-program "firefox"))
 
 ;; org mode
 (use-package org
   :ensure nil
-  :hook (org-mode . visual-line-mode)
+:hook ((org-mode . visual-line-mode)
+       (org-mode . org-indent-mode))
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture))
   :config
   (setq org-directory "~/Documents/org")
-  ;; tasks.org, notes.org, journal.org
+  ;; tasks.org, notes.org, journal.org, work.org
   (setq org-agenda-files '("~/Documents/org/"))
+
+  (setq org-hide-leading-stars t)
 
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)" "|" "DONE(d)")))
@@ -211,6 +231,25 @@
   (setq org-todo-keyword-faces
         '(("NEXT" . "orange")
           ("IN-PROGRESS" . "cyan")))
+
+  ;; time tracking
+  (setq org-log-done 'time
+        org-agenda-span 'week
+        org-agenda-start-on-weekday 1
+        org-clock-persist 'history
+        org-clock-out-remove-zero-time-clocks t
+        org-duration-format 'h:mm
+        org-agenda-clockreport-parameter-plist '(:link t :maxlevel 2 :compact t))
+  (org-clock-persistence-insinuate)
+
+  ;; clocking in on a TODO/NEXT task marks it IN-PROGRESS
+  (setq org-clock-in-switch-to-state
+        (lambda (_) (when (member (org-get-todo-state) '("TODO" "NEXT"))
+                      "IN-PROGRESS")))
+
+  ;; effort estimates you can pick with C-c C-x e
+  (setq org-global-properties
+        '(("Effort_ALL" . "0:30 1:00 1:30 2:00 3:00 4:00 6:00 8:00")))
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline (lambda () (expand-file-name "tasks.org" org-directory)) "Inbox")
@@ -220,91 +259,126 @@
           ("j" "Journal" entry (file+olp+datetree (lambda () (expand-file-name "journal.org" org-directory)))
            "* %?\nEntered on %U\n  %i\n"))))
 
+(use-package evil-org
+  :after (evil org)
+  :hook (org-mode . evil-org-mode)
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
 (use-package org-superstar
-  :hook (org-mode . org-superstar-mode))
-
-;; ------- LSP Configuration --------
-
-;; Core LSP (lsp-mode)
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (
-         (python-mode . lsp)
-         (c-mode . lsp)
-         (c++-mode . lsp)
-         (rust-mode . lsp)
-         (js-mode . lsp)
-
-         (lsp-mode . lsp-enable-which-key-integration))
+  :hook (org-mode . org-superstar-mode)
   :config
-  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq org-superstar-leading-bullet " ")
 
-  (with-eval-after-load 'lsp-mode
-    (evil-define-key 'normal lsp-mode-map
-      (kbd "g d") 'lsp-find-definition
-      (kbd "g r") 'lsp-find-references
-      (kbd "K")   'lsp-ui-doc-focus-frame
-      (kbd "g e N") 'flycheck-previous-error
-      (kbd "g e n") 'flycheck-next-error))
-  :commands lsp)
+  (setq org-superstar-headline-bullets-list '("◉" "○" "◈" "◇" "•"))
+  (custom-set-faces
+   '(org-superstar-header-bullet ((t (:height 1.0 :inherit default))))))
 
-;; Better syntax checking
-(use-package flycheck
-  :init (global-flycheck-mode))
+(defun my/work-new-week (date)
+  "Append a week skeleton to work.org. DATE is any day in that week."
+  (interactive (list (org-read-date nil t nil "Any day in the week: ")))
+  (let* ((d (decode-time date))
+         (monday (decoded-time-add
+                  d (make-decoded-time
+                     :day (- (mod (+ (decoded-time-weekday d) 6) 7)))))
+         (mtime (encode-time monday)))
+    (find-file (expand-file-name "work.org" org-directory))
+    (goto-char (point-max))
+    (unless (bolp) (insert "\n"))
+    (insert (format "\n* Week %s · %s\n** Week objectives\n"
+                    (format-time-string "%V" mtime)
+                    (format-time-string "%d %b %Y" mtime)))
+    (dotimes (i 5)
+      (let ((day (encode-time
+                  (decoded-time-add monday (make-decoded-time :day i)))))
+        (insert (format "** %s <%s>\n*** Admin / buffer :admin:\n*** Notes\n*** Hours\n#+BEGIN: clocktable :scope tree2 :maxlevel 3\n#+END:\n"
+                        (format-time-string "%a %d %b" day)
+                        (format-time-string "%Y-%m-%d %a" day)))))
+    (insert "** Week summary\n#+BEGIN: clocktable :scope tree1 :maxlevel 3 :tags t\n#+END:\n")))
 
-;; Better UI
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :custom
-  ;; Documentation Settings
-  (lsp-ui-doc-enable t)
-  (lsp-ui-doc-header nil)
-  (lsp-ui-doc-include-signature nil)
-  (lsp-ui-doc-position 'top) ;; Options: 'top, 'bottom, or 'at-point
-  (lsp-ui-doc-max-height 30)
-  (lsp-ui-doc-max-width 120)
+;; ;; ------- LSP Configuration --------
 
-  ;; Control the behavior
-  (lsp-ui-doc-delay 0.5)          ;; Wait 0.5s before showing (prevents flickering while moving)
-  (lsp-ui-doc-show-with-cursor t) ;; Don't show just because cursor moved...
-  (lsp-ui-doc-show-with-mouse nil)    ;; ...but show if mouse hovers (optional)
+;; ;; Core LSP (lsp-mode)
+;; (use-package lsp-mode
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :hook (
+;;          (python-mode . lsp)
+;;          (c-mode . lsp)
+;;          (c++-mode . lsp)
+;;          (rust-mode . lsp)
+;;          (js-mode . lsp)
 
-  ;; Sideline settings
-  (lsp-ui-sideline-enable t)
-  (lsp-ui-sideline-show-hover nil))      ;; Turn off sideline to focus on the doc window
+;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :config
+;;   (setq lsp-headerline-breadcrumb-enable nil)
 
-;; Auto completion
-(use-package company
-  :after lsp-mode
-  :hook (lsp-mode . company-mode)
-  :bind (:map company-active-map
-          ("C-j" . company-select-next)
-          ("C-k" . company-select-previous)
-          ("<tab>" . company-complete-selection))
-  :config
-  (with-eval-after-load 'company
-    (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.1)) ; 0.1s is usually smoother than 0.0s
+;;   (with-eval-after-load 'lsp-mode
+;;     (evil-define-key 'normal lsp-mode-map
+;;       (kbd "g d") 'lsp-find-definition
+;;       (kbd "g r") 'lsp-find-references
+;;       (kbd "K")   'lsp-ui-doc-focus-frame
+;;       (kbd "g e N") 'flycheck-previous-error
+;;       (kbd "g e n") 'flycheck-next-error))
+;;   :commands lsp)
 
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :config (custom-set-faces
-           ;; This handles the background of the selected line in the box
-           '(company-box-selection ((t (:background "#32383e" :foreground "#ffffff"))))))
+;; ;; Better syntax checking
+;; (use-package flycheck
+;;   :init (global-flycheck-mode))
 
-;; Python (pyright + ruff)
-(use-package lsp-pyright
-  :custom (lsp-pyright-langserver-command "pyright") ;; or basedpyright
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
+;; ;; Better UI
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode
+;;   :custom
+;;   ;; Documentation Settings
+;;   (lsp-ui-doc-enable t)
+;;   (lsp-ui-doc-header nil)
+;;   (lsp-ui-doc-include-signature nil)
+;;   (lsp-ui-doc-position 'top) ;; Options: 'top, 'bottom, or 'at-point
+;;   (lsp-ui-doc-max-height 30)
+;;   (lsp-ui-doc-max-width 120)
 
-(use-package pyvenv
-  :config
-  (pyvenv-mode 1))
+;;   ;; Control the behavior
+;;   (lsp-ui-doc-delay 0.5)          ;; Wait 0.5s before showing (prevents flickering while moving)
+;;   (lsp-ui-doc-show-with-cursor t) ;; Don't show just because cursor moved...
+;;   (lsp-ui-doc-show-with-mouse nil)    ;; ...but show if mouse hovers (optional)
 
-;; Rust
-(use-package rust-mode)
+;;   ;; Sideline settings
+;;   (lsp-ui-sideline-enable t)
+;;   (lsp-ui-sideline-show-hover nil))      ;; Turn off sideline to focus on the doc window
+
+;; ;; Auto completion
+;; (use-package company
+;;   :after lsp-mode
+;;   :hook (lsp-mode . company-mode)
+;;   :bind (:map company-active-map
+;;           ("C-j" . company-select-next)
+;;           ("C-k" . company-select-previous)
+;;           ("<tab>" . company-complete-selection))
+;;   :config
+;;   (with-eval-after-load 'company
+;;     (define-key evil-insert-state-map (kbd "C-SPC") 'company-complete))
+;;   :custom
+;;   (company-minimum-prefix-length 1)
+;;   (company-idle-delay 0.1)) ; 0.1s is usually smoother than 0.0s
+
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode)
+;;   :config (custom-set-faces
+;;            ;; This handles the background of the selected line in the box
+;;            '(company-box-selection ((t (:background "#32383e" :foreground "#ffffff"))))))
+
+;; ;; Python (pyright + ruff)
+;; (use-package lsp-pyright
+;;   :custom (lsp-pyright-langserver-command "pyright") ;; or basedpyright
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-pyright)
+;;                           (lsp))))  ; or lsp-deferred
+
+;; (use-package pyvenv
+;;   :config
+;;   (pyvenv-mode 1))
+
+;; ;; Rust
+;; (use-package rust-mode)
