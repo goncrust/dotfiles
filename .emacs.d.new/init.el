@@ -382,3 +382,13 @@
 
 ;; ;; Rust
 ;; (use-package rust-mode)
+
+;; quick run
+(use-package quickrun
+    :bind (("C-c x" . quickrun)            ; run current file
+           ("C-c X" . quickrun-shell)))    ; run in an interactive shell (for programs that read stdin)
+
+(add-to-list 'display-buffer-alist
+               '("\\*\\(quickrun\\|eshell-quickrun\\|compilation\\)\\*"
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (window-height . 0.3)))
