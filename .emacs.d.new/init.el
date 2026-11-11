@@ -410,8 +410,9 @@
 
 ;; quick run
 (use-package quickrun
-    :bind (("C-c x" . quickrun)            ; run current file
-           ("C-c X" . quickrun-shell)))    ; run in an interactive shell (for programs that read stdin)
+    :bind (("C-c x" . quickrun)              ; run current file
+           ("C-c X" . quickrun-shell)        ; run in an interactive shell (for programs that read stdin)
+           ("C-c C-x" . quickrun-with-arg))) ; prompts for command-line arguments
 
 (add-to-list 'display-buffer-alist
                '("\\*\\(quickrun\\|eshell-quickrun\\|compilation\\)\\*"
