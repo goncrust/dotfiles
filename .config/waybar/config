@@ -120,10 +120,34 @@
         "max-length": 120
     },
 
-    "sway/workspaces": {
+    /*"sway/workspaces": {
         "all-outputs": false,
         "disable-scroll": true,
         "format": "{name}",
+    },*/
+
+    "sway/workspaces": {
+        "format": "{icon}",
+        "disable-scroll": true,
+        "all-outputs": false,
+        "persistent-workspaces": {
+            "1": ["DP-2"], "2": ["DP-2"], "3": ["DP-2"], "4": ["DP-2"], "5": ["DP-2"],
+            "6": ["DP-1"], "7": ["DP-1"], "8": ["DP-1"], "9": ["DP-1"], "10": ["DP-1"]
+        },
+        "format-icons": {
+            "1": "\uf269",   // firefox
+            "2": "\uf120",   // terminal
+            "3": "\uf121",   // code / ide
+            "4": "\uf10c",   // spare
+            "5": "\uf0e0",   // mail (thunderbird)
+            "6": "\uf069",   // claude (asterisk)
+            "7": "\uf02d",   // book (zotero)
+            "8": "\uf001",   // music
+            "9": "\uf10c",   // spare
+            "10": "\uf10c",  // spare
+            "urgent": "\uf06a",
+            "default": "\uf111"
+        }
     },
 
     "pulseaudio#output": {
