@@ -5,7 +5,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(all-the-icons-dired company-box consult diff-hl doom-modeline doom-themes evil-collection evil-org flycheck
+                         lsp-pyright lsp-ui magit-todos marginalia multiple-cursors orderless org-superstar pyvenv
+                         quickrun rainbow-delimiters rust-mode undo-fu vertico)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,6 +17,8 @@
  )
 
 ;; Basics
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 (setq inhibit-startup-message t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -153,6 +158,26 @@
 ;; Magit
 (use-package magit
   :bind ("C-c g" . magit-status))
+
+(use-package diff-hl
+  :ensure t
+  :init
+  ;; Enable diff-hl globally across all buffers
+  (global-diff-hl-mode)
+  :config
+  ;; Highlight changes on the fly (as you type, rather than just on save)
+  (diff-hl-flydiff-mode)
+
+  ;; Integration with Magit (updates indicators immediately after staging/committing)
+  (with-eval-after-load 'magit
+    (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+;; Ensure the floating window dynamically scales with NO upper restrictions
+  (setq diff-hl-show-hunk-posframe-parameters
+        '((min-height . 4)      ; Starts at a reasonable minimum layout
+          (height . nil)        ; NIL allows it to expand automatically to fit the code
+          (max-height . 40))))  ; Cap it high so large hunks don't get choked down
 
 ;; Dired
 (use-package all-the-icons-dired
